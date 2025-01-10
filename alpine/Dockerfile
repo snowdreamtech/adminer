@@ -1,4 +1,4 @@
-FROM snowdreamtech/alpine:3.21.0
+FROM snowdreamtech/php:8.4.2-fpm-alpine3.21
 
 # OCI annotations to image
 LABEL org.opencontainers.image.authors="Snowdream Tech" \
@@ -11,7 +11,7 @@ LABEL org.opencontainers.image.authors="Snowdream Tech" \
     org.opencontainers.image.vendor="Snowdream Tech" \
     org.opencontainers.image.version="3.21.0" \
     org.opencontainers.image.url="https://github.com/snowdreamtech/base"
-    
+
 # Switch to the user
 USER root
 
@@ -24,10 +24,18 @@ ENV KEEPALIVE=1 \
     # which are port numbers less than 1024. 
     CAP_NET_BIND_SERVICE=0 
 
+ENV ADMINER_VERSION=4.8.1 \
+    ADMINER_SQLITE_PASSWORD='' \
+    ADMINER_PATH=/var/lib/nginx/html \
+    ADMINER_THEMES_PATH=/var/lib/nginx/html/designs \
+    ADMINER_PLUGINS_PATH=/var/lib/nginx/html/plugins \
+    ADMINER_DRIVERS_PATH=/var/lib/nginx/html/plugins/drivers \
+    GITHUB_PROXY=https://gh-proxy.sn0wdr1am.com/
+
 ARG GID=1000 \
     UID=1000  \
-    USER=base \
-    WORKDIR=/home/base
+    USER=root \
+    WORKDIR=/root
 
 # Create a user with UID and GID
 RUN if [ "${USER}" != "root" ]; then \
@@ -42,14 +50,56 @@ RUN if [ "${USER}" != "root" ] && [ "${CAP_NET_BIND_SERVICE}" -eq 1 ]; then \
     # setcap 'cap_net_bind_service=+ep' `which nginx`; \
     fi
 
-RUN apk add --no-cache \
-    vim
+COPY designs ${ADMINER_THEMES_PATH}
+
+RUN mkdir -p ${ADMINER_PATH} \
+    && mkdir -p ${ADMINER_THEMES_PATH} \
+    && mkdir -p ${ADMINER_PLUGINS_PATH} \
+    && mkdir -p ${ADMINER_DRIVERS_PATH} \
+    && wget https://github.com/vrana/adminer/releases/download/v${ADMINER_VERSION}/adminer-${ADMINER_VERSION}.php -O ${ADMINER_PATH}/adminer.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/plugin.php -O ${ADMINER_PLUGINS_PATH}/plugin.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/database-hide.php -O ${ADMINER_PLUGINS_PATH}/database-hide.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/designs.php -O ${ADMINER_PLUGINS_PATH}/designs.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/dump-alter.php -O ${ADMINER_PLUGINS_PATH}/dump-alter.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/dump-bz2.php -O ${ADMINER_PLUGINS_PATH}/dump-bz2.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/dump-date.php -O ${ADMINER_PLUGINS_PATH}/dump-date.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/dump-json.php -O ${ADMINER_PLUGINS_PATH}/dump-json.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/dump-xml.php -O ${ADMINER_PLUGINS_PATH}/dump-xml.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/dump-zip.php -O ${ADMINER_PLUGINS_PATH}/dump-zip.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/edit-calendar.php -O ${ADMINER_PLUGINS_PATH}/edit-calendar.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/edit-foreign.php -O ${ADMINER_PLUGINS_PATH}/edit-foreign.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/edit-textarea.php -O ${ADMINER_PLUGINS_PATH}/edit-textarea.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/enum-option.php -O ${ADMINER_PLUGINS_PATH}/enum-option.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/enum-types.php -O ${ADMINER_PLUGINS_PATH}/enum-types.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/file-upload.php -O ${ADMINER_PLUGINS_PATH}/file-upload.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/foreign-system.php -O ${ADMINER_PLUGINS_PATH}/foreign-system.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/frames.php -O ${ADMINER_PLUGINS_PATH}/frames.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/json-column.php -O ${ADMINER_PLUGINS_PATH}/json-column.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/login-otp.php -O ${ADMINER_PLUGINS_PATH}/login-otp.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/login-servers.php -O ${ADMINER_PLUGINS_PATH}/login-servers.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/login-password-less.php -O ${ADMINER_PLUGINS_PATH}/login-password-less.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/login-ssl.php -O ${ADMINER_PLUGINS_PATH}/login-ssl.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/login-table.php -O ${ADMINER_PLUGINS_PATH}/login-table.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/master-slave.php -O ${ADMINER_PLUGINS_PATH}/master-slave.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/pretty-json-column.php -O ${ADMINER_PLUGINS_PATH}/pretty-json-column.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/slugify.php -O ${ADMINER_PLUGINS_PATH}/slugify.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/sql-log.php -O ${ADMINER_PLUGINS_PATH}/sql-log.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/struct-comments.php -O ${ADMINER_PLUGINS_PATH}/struct-comments.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/tables-filter.php -O ${ADMINER_PLUGINS_PATH}/tables-filter.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/tinymce.php -O ${ADMINER_PLUGINS_PATH}/tinymce.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/translation.php -O ${ADMINER_PLUGINS_PATH}/translation.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/version-noverify.php -O ${ADMINER_PLUGINS_PATH}/version-noverify.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/wymeditor.php -O ${ADMINER_PLUGINS_PATH}/wymeditor.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/drivers/clickhouse.php -O ${ADMINER_DRIVERS_PATH}/clickhouse.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/drivers/firebird.php -O ${ADMINER_DRIVERS_PATH}/firebird.php \
+    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/master/plugins/drivers/simpledb.php -O ${ADMINER_DRIVERS_PATH}/simpledb.php \
+    && chown -Rv nginx:nginx ${ADMINER_PATH} 
 
 # Switch to the user
-USER ${USER}
+USER nginx
 
 # Set the workdir
-WORKDIR ${WORKDIR}
+WORKDIR ${ADMINER_PATH}
 
 COPY docker-entrypoint.sh /usr/local/bin/
 
