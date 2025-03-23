@@ -30,7 +30,7 @@ ENV ADMINER_VERSION=4.8.1 \
     ADMINER_THEMES_PATH=/usr/share/nginx/html/designs \
     ADMINER_PLUGINS_PATH=/usr/share/nginx/html/plugins \
     ADMINER_DRIVERS_PATH=/usr/share/nginx/html/plugins/drivers \
-    GITHUB_PROXY=https://gh-proxy.sn0wdr1am.com/
+    GITHUB_PROXY=
 
 ARG GID=1000 \
     UID=1000  \
