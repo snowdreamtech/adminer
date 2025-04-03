@@ -87,7 +87,7 @@ RUN mkdir -p ${ADMINER_PATH} \
     && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/refs/tags/v${ADMINER_VERSION}/plugins/tinymce.php -O ${ADMINER_PLUGINS_PATH}/tinymce.php \
     && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/refs/tags/v${ADMINER_VERSION}/plugins/translation.php -O ${ADMINER_PLUGINS_PATH}/translation.php \
     && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/refs/tags/v${ADMINER_VERSION}/plugins/version-noverify.php -O ${ADMINER_PLUGINS_PATH}/version-noverify.php \
-    && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/refs/tags/v${ADMINER_VERSION}/plugins/wymeditor.php -O ${ADMINER_PLUGINS_PATH}/wymeditor.php \
+    # && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/refs/tags/v${ADMINER_VERSION}/plugins/wymeditor.php -O ${ADMINER_PLUGINS_PATH}/wymeditor.php \
     && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/refs/tags/v${ADMINER_VERSION}/plugins/drivers/clickhouse.php -O ${ADMINER_DRIVERS_PATH}/clickhouse.php \
     && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/refs/tags/v${ADMINER_VERSION}/plugins/drivers/firebird.php -O ${ADMINER_DRIVERS_PATH}/firebird.php \
     && wget ${GITHUB_PROXY}https://raw.githubusercontent.com/vrana/adminer/refs/tags/v${ADMINER_VERSION}/plugins/drivers/simpledb.php -O ${ADMINER_DRIVERS_PATH}/simpledb.php \
