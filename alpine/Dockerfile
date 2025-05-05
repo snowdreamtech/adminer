@@ -9,7 +9,7 @@ LABEL org.opencontainers.image.authors="Snowdream Tech" \
     org.opencontainers.image.licenses="MIT" \
     org.opencontainers.image.source="https://github.com/snowdreamtech/adminer" \
     org.opencontainers.image.vendor="Snowdream Tech" \
-    org.opencontainers.image.version="5.2.1" \
+    org.opencontainers.image.version="5.3.0" \
     org.opencontainers.image.url="https://github.com/snowdreamtech/adminer"
 
 # Switch to the user
@@ -24,7 +24,7 @@ ENV KEEPALIVE=1 \
     # which are port numbers less than 1024. 
     CAP_NET_BIND_SERVICE=0 
 
-ENV ADMINER_VERSION=5.2.1 \
+ENV ADMINER_VERSION=5.3.0 \
     ADMINER_SQLITE_PASSWORD='' \
     ADMINER_PATH=/var/lib/nginx/html \
     ADMINER_THEMES_PATH=/var/lib/nginx/html/designs \
