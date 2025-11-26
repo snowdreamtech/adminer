@@ -9,7 +9,7 @@ LABEL org.opencontainers.image.authors="Snowdream Tech" \
     org.opencontainers.image.licenses="MIT" \
     org.opencontainers.image.source="https://github.com/snowdreamtech/adminer" \
     org.opencontainers.image.vendor="Snowdream Tech" \
-    org.opencontainers.image.version="5.3.0" \
+    org.opencontainers.image.version="5.4.0" \
     org.opencontainers.image.url="https://github.com/snowdreamtech/adminer"
     
 # Switch to the user
@@ -48,7 +48,7 @@ ENV KEEPALIVE=${KEEPALIVE} \
     USER=${USER} \
     WORKDIR=${WORKDIR} 
 
-ENV ADMINER_VERSION=5.3.0 \
+ENV ADMINER_VERSION=5.4.0 \
     ADMINER_SQLITE_PASSWORD='' \
     ADMINER_PATH=/var/lib/nginx/html \
     ADMINER_THEMES_PATH=/var/lib/nginx/html/designs \
