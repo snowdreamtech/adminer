@@ -1,16 +1,16 @@
-FROM snowdreamtech/debian:13.1.0
+FROM snowdreamtech/php:8.4.11-fpm-trixie
 
 # OCI annotations to image
 LABEL org.opencontainers.image.authors="Snowdream Tech" \
-    org.opencontainers.image.title="Base Image Based On Debian" \
-    org.opencontainers.image.description="Docker Images for Base on Debian. (i386,amd64,arm32v5,arm32v7,arm64,mips64le,ppc64le,s390x)" \
-    org.opencontainers.image.documentation="https://hub.docker.com/r/snowdreamtech/base" \
-    org.opencontainers.image.base.name="snowdreamtech/base:debian" \
+    org.opencontainers.image.title="Adminer Image Based On Debian" \
+    org.opencontainers.image.description="Docker Images for Adminer on Debian. (i386,amd64,arm32v5,arm32v7,arm64,mips64le,ppc64le,s390x)" \
+    org.opencontainers.image.documentation="https://hub.docker.com/r/snowdreamtech/adminer" \
+    org.opencontainers.image.base.name="snowdreamtech/adminer:debian" \
     org.opencontainers.image.licenses="MIT" \
-    org.opencontainers.image.source="https://github.com/snowdreamtech/base" \
+    org.opencontainers.image.source="https://github.com/snowdreamtech/adminer" \
     org.opencontainers.image.vendor="Snowdream Tech" \
-    org.opencontainers.image.version="13.1.0" \
-    org.opencontainers.image.url="https://github.com/snowdreamtech/base"
+    org.opencontainers.image.version="5.3.0" \
+    org.opencontainers.image.url="https://github.com/snowdreamtech/adminer"
 
 # Switch to the user
 USER root
@@ -20,7 +20,7 @@ WORKDIR /root
 
 # keep the docker container running
 ARG DEBIAN_FRONTEND=noninteractive \
-    KEEPALIVE=0 \
+    KEEPALIVE=1 \
     # The cap_net_bind_service capability in Linux allows a process to bind a socket to Internet domain privileged ports, 
     # which are port numbers less than 1024. 
     CAP_NET_BIND_SERVICE=0 \
@@ -50,6 +50,13 @@ ENV DEBIAN_FRONTEND=${DEBIAN_FRONTEND} \
     USER=${USER} \
     WORKDIR=${WORKDIR} 
 
+ENV ADMINER_VERSION=5.3.0 \
+    ADMINER_SQLITE_PASSWORD='' \
+    ADMINER_PATH=/usr/share/nginx/html \
+    ADMINER_THEMES_PATH=/usr/share/nginx/html/designs \
+    ADMINER_PLUGINS_PATH=/usr/share/nginx/html/adminer-plugins \
+    GITHUB_PROXY=
+
 # Create a user with PUID and PGID
 RUN if [ "${USER}" != "root" ] && [ ! -d "/home/${USER}" ] && [ "${PUID}" -ne 0 ] && [ "${PGID}" -ne 0 ]; then \
     addgroup --gid ${PGID} ${USER}; \
@@ -57,15 +64,16 @@ RUN if [ "${USER}" != "root" ] && [ ! -d "/home/${USER}" ] && [ "${PUID}" -ne 0 
     # sed -i "/%sudo/c ${USER} ALL=(ALL:ALL) NOPASSWD:ALL" /etc/sudoers; \
     fi
     
-RUN set -eux \
-    && DEBIAN_FRONTEND=noninteractive apt-get -qqy update  \
-    && DEBIAN_FRONTEND=noninteractive apt-get -qqy install --no-install-recommends \ 
-    vim \
-    && DEBIAN_FRONTEND=noninteractive apt-get -qqy --purge autoremove \
-    && DEBIAN_FRONTEND=noninteractive apt-get -qqy clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && rm -rf /tmp/* \
-    && rm -rf /var/tmp/*
+RUN mkdir -p ${ADMINER_PATH} \
+    && mkdir -p ${ADMINER_THEMES_PATH} \
+    && mkdir -p ${ADMINER_PLUGINS_PATH} \
+    && rm -rfv ${ADMINER_PATH}/* \
+    && wget ${GITHUB_PROXY}https://github.com/vrana/adminer/releases/download/v${ADMINER_VERSION}/adminer-${ADMINER_VERSION}.php -O ${ADMINER_PATH}/index.php \
+    && wget ${GITHUB_PROXY}https://github.com/vrana/adminer/archive/refs/tags/v${ADMINER_VERSION}.tar.gz -O adminer.tar.gz \
+    && tar -xzvf adminer.tar.gz \
+    && cp -rfv adminer-${ADMINER_VERSION}/designs ${ADMINER_THEMES_PATH}/ \
+    && cp -rfv adminer-${ADMINER_VERSION}/plugins ${ADMINER_PLUGINS_PATH}/ \
+    && rm -rfv adminer-${ADMINER_VERSION} adminer.tar.gz
 
 # Enable CAP_NET_BIND_SERVICE
 # RUN if [ "${USER}" != "root" ] && [ "${CAP_NET_BIND_SERVICE}" -eq 1 ]; then \
