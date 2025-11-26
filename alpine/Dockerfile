@@ -69,8 +69,12 @@ RUN mkdir -p ${ADMINER_PATH} \
     && wget ${GITHUB_PROXY}https://github.com/vrana/adminer/releases/download/v${ADMINER_VERSION}/adminer-${ADMINER_VERSION}.php -O ${ADMINER_PATH}/index.php \
     && wget ${GITHUB_PROXY}https://github.com/vrana/adminer/archive/refs/tags/v${ADMINER_VERSION}.tar.gz -O adminer.tar.gz \
     && tar -xzvf adminer.tar.gz \
-    && cp -rfv adminer-${ADMINER_VERSION}/designs ${ADMINER_THEMES_PATH}/ \
-    && cp -rfv adminer-${ADMINER_VERSION}/plugins ${ADMINER_PLUGINS_PATH}/ \
+    && cp -rfv adminer-${ADMINER_VERSION}/designs ${ADMINER_THEMES_PATH} \
+    && cp -rfv adminer-${ADMINER_VERSION}/plugins ${ADMINER_PLUGINS_PATH} \
+    && cp -rfv adminer-${ADMINER_VERSION}/plugins/drivers/* ${ADMINER_PLUGINS_PATH}/ \
+    && rm -rfv adminer-${ADMINER_VERSION}/plugins/drivers \
+    && rm -rfv ${ADMINER_PLUGINS_PATH}/login-otp.php \
+    && rm -rfv ${ADMINER_PLUGINS_PATH}/login-table.php \
     && rm -rfv adminer-${ADMINER_VERSION} adminer.tar.gz
 
 # Enable CAP_NET_BIND_SERVICE
