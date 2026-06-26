@@ -28,21 +28,24 @@ function adminer_object() {
         $plugins[] = new AdminerLoginPasswordLess(password_hash($sqlite_pass, PASSWORD_DEFAULT));
     }
     
-    // 4. AdminerLoginServers
-    include_once __DIR__ . "/plugins/login-servers.php";
-    $plugins[] = new AdminerLoginServers(array(
-        'MySQL (db)' => array('server' => 'db', 'driver' => 'server'),
-        'MySQL (mysql)' => array('server' => 'mysql', 'driver' => 'server'),
-        'MySQL (mariadb)' => array('server' => 'mariadb', 'driver' => 'server'),
-        'PostgreSQL (db)' => array('server' => 'db', 'driver' => 'pgsql'),
-        'PostgreSQL (postgres)' => array('server' => 'postgres', 'driver' => 'pgsql'),
-        'SQLite' => array('server' => '', 'driver' => 'sqlite'),
-        'Elasticsearch' => array('server' => 'elasticsearch', 'driver' => 'elastic'),
-        'Elasticsearch (es)' => array('server' => 'es', 'driver' => 'elastic'),
-        'ClickHouse' => array('server' => 'clickhouse', 'driver' => 'clickhouse'),
-        'SimpleDB' => array('server' => 'simpledb', 'driver' => 'simpledb'),
-        'IGDB' => array('server' => 'igdb', 'driver' => 'igdb'),
-    ));
+    // 4. AdminerLoginServers (controlled by env var)
+    $server_mode = getenv("ADMINER_DEFAULT_SERVER_MODE");
+    if ($server_mode !== "false" && $server_mode !== "0") {
+        include_once __DIR__ . "/plugins/login-servers.php";
+        $plugins[] = new AdminerLoginServers(array(
+            'MySQL (db)' => array('server' => 'db', 'driver' => 'server'),
+            'MySQL (mysql)' => array('server' => 'mysql', 'driver' => 'server'),
+            'MySQL (mariadb)' => array('server' => 'mariadb', 'driver' => 'server'),
+            'PostgreSQL (db)' => array('server' => 'db', 'driver' => 'pgsql'),
+            'PostgreSQL (postgres)' => array('server' => 'postgres', 'driver' => 'pgsql'),
+            'SQLite' => array('server' => '', 'driver' => 'sqlite'),
+            'Elasticsearch' => array('server' => 'elasticsearch', 'driver' => 'elastic'),
+            'Elasticsearch (es)' => array('server' => 'es', 'driver' => 'elastic'),
+            'ClickHouse' => array('server' => 'clickhouse', 'driver' => 'clickhouse'),
+            'SimpleDB' => array('server' => 'simpledb', 'driver' => 'simpledb'),
+            'IGDB' => array('server' => 'igdb', 'driver' => 'igdb'),
+        ));
+    }
     
     // 5. Driver Plugins
     include_once __DIR__ . "/plugins/drivers/clickhouse.php";
