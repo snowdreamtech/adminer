@@ -7,6 +7,23 @@ if [ "$DEBUG" = "true" ]; then echo "→ Setting up Adminer plugins"; fi
 cat >"${ADMINER_PATH}"/index.php <<'PHP'
 <?php
 function adminer_object() {
+    // Fix for AdminerDesigns plugin not persisting theme on login page in Adminer 5.x
+    if (session_status() === PHP_SESSION_NONE) {
+        session_name("adminer_sid");
+        $params = array(
+            0,
+            preg_replace('~\?.*~', '', $_SERVER["REQUEST_URI"]),
+            "",
+            isset($_SERVER["HTTPS"]) && strcasecmp($_SERVER["HTTPS"], "off"),
+            true
+        );
+        session_set_cookie_params($params[0], $params[1], $params[2], $params[3], $params[4]);
+        session_start();
+    }
+    if (isset($_POST["design"])) {
+        $_SESSION["design"] = $_POST["design"];
+    }
+
     $plugins = array();
     
     // 1. AdminerDesigns
@@ -53,9 +70,8 @@ function adminer_object() {
     include_once __DIR__ . "/plugins/drivers/simpledb.php";
     include_once __DIR__ . "/plugins/drivers/igdb.php";
     
-    include_once __DIR__ . "/plugins/plugin.php";
     
-    return new AdminerPlugin($plugins);
+    return new \Adminer\Plugins($plugins);
 }
 
 // include original adminer.php
