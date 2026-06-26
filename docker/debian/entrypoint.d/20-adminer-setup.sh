@@ -53,7 +53,9 @@ function adminer_object() {
     include_once __DIR__ . "/plugins/drivers/simpledb.php";
     include_once __DIR__ . "/plugins/drivers/igdb.php";
     
-    return new \Adminer\Plugins($plugins);
+    include_once __DIR__ . "/plugins/plugin.php";
+    
+    return new AdminerPlugin($plugins);
 }
 
 // include original adminer.php
