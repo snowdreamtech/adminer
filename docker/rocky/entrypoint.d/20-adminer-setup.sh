@@ -49,6 +49,18 @@ function adminer_object() {
         $plugins[] = new AdminerLoginPasswordLess(password_hash($sqlite_pass, PASSWORD_DEFAULT));
     }
     
+    // Uncomment the following lines to restrict login to specific servers
+    // $plugins[] = new AdminerLoginServers(array(
+    //     'localhost' => 'localhost',
+    //     '127.0.0.1' => '127.0.0.1',
+    //     'db' => 'db',
+    //     'mysql' => 'mysql',
+    //     'mariadb' => 'mariadb',
+    //     'sqlite' => 'sqlite',
+    //     'postgres' => 'postgres',
+    //     'pg' => 'pg',
+    // ));
+    
     return new AdminerPlugin($plugins);
 }
 
