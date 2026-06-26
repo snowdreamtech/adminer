@@ -13,7 +13,7 @@ function adminer_object() {
     include_once __DIR__ . "/plugins/designs.php";
     $designs = array();
     foreach (glob(__DIR__ . "/designs/*", GLOB_ONLYDIR) as $filename) {
-        $designs["$filename/adminer.css"] = basename($filename);
+        $designs["designs/" . basename($filename) . "/adminer.css"] = basename($filename);
     }
     $plugins[] = new AdminerDesigns($designs);
     
