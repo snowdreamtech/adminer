@@ -1,32 +1,28 @@
-# Base
+# Adminer
 
-![Docker Image Version](https://img.shields.io/docker/v/snowdreamtech/base)
-![Docker Image Size](https://img.shields.io/docker/image-size/snowdreamtech/base/latest)
-![Docker Pulls](https://img.shields.io/docker/pulls/snowdreamtech/base)
-![Docker Stars](https://img.shields.io/docker/stars/snowdreamtech/base)
+![Docker Image Version](https://img.shields.io/docker/v/snowdreamtech/adminer)
+![Docker Image Size](https://img.shields.io/docker/image-size/snowdreamtech/adminer/latest)
+![Docker Pulls](https://img.shields.io/docker/pulls/snowdreamtech/adminer)
+![Docker Stars](https://img.shields.io/docker/stars/snowdreamtech/adminer)
 
-Docker 基础模板，提供标准化的容器基础，具有灵活的入口点系统、多架构支持以及跨 Alpine、Debian 和 Rocky Linux 发行版的一致配置模式。
+[Adminer](https://www.adminer.org/)（前身为 phpMinAdmin）的 Docker 镜像，一个用 PHP 编写的全功能数据库管理工具。支持 MySQL、MariaDB、PostgreSQL、SQLite、MS SQL、Oracle、Elasticsearch、MongoDB 等数据库——全部集成在一个 PHP 文件中。
 
 ## 概述
 
-Docker 基础模板作为构建容器化应用程序的基础起点。它提供：
+本项目基于 `snowdreamtech/php`（Nginx 版本）提供生产就绪的 Adminer Docker 镜像，可选三种发行版变体：
 
-- **标准化的 Dockerfile**，包含 OCI 注释和最佳实践
-- **灵活的入口点系统**，支持自定义初始化脚本
-- **一致的环境变量配置**，适用于所有变体
-- **多架构支持**，适用于多样化的硬件平台
-- **用户/组管理**，支持 PUID/PGID 进行权限处理
-- **三种发行版变体**：Alpine（轻量级）、Debian（默认/广泛兼容）、Rocky（企业级）
+- **Alpine** — 轻量级，最小镜像体积
+- **Debian** — 默认推荐，广泛兼容
+- **Rocky** — 企业级，RHEL 兼容
 
 ## 快速开始
 
 ```bash
 # 拉取并运行默认的 Debian 变体
-docker pull snowdreamtech/base:debian
-docker run -d --name=base -e TZ=Asia/Shanghai snowdreamtech/base:debian
+docker pull snowdreamtech/adminer:debian
+docker run -d --name=adminer -p 8080:80 snowdreamtech/adminer:debian
 
-# 或使用 docker-compose
-docker-compose up -d
+# 通过 http://localhost:8080/adminer.php 访问 Adminer
 ```
 
 ## 发行版变体
@@ -37,15 +33,16 @@ docker-compose up -d
 
 ```bash
 docker run -d \
-  --name=base \
+  --name=adminer \
+  -p 8080:80 \
   -e TZ=Asia/Shanghai \
   --restart unless-stopped \
-  snowdreamtech/base:debian
+  snowdreamtech/adminer:debian
 ```
 
-**支持的架构**：i386、amd64、arm32v5、arm32v7、arm64、mips64le、ppc64le、s390x
+**支持的架构**：i386、amd64、arm32v5、arm32v7、arm64、riscv64、ppc64le、s390x
 
-**基础镜像**：`snowdreamtech/debian:13.5.0`
+**基础镜像**：`snowdreamtech/php:8.4.16-nginx-debian`
 
 ### Alpine
 
@@ -53,15 +50,16 @@ docker run -d \
 
 ```bash
 docker run -d \
-  --name=base \
+  --name=adminer \
+  -p 8080:80 \
   -e TZ=Asia/Shanghai \
   --restart unless-stopped \
-  snowdreamtech/base:alpine
+  snowdreamtech/adminer:alpine
 ```
 
 **支持的架构**：i386、amd64、arm32v6、arm32v7、arm64、ppc64le、riscv64、s390x
 
-**基础镜像**：`snowdreamtech/alpine:3.24.0`
+**基础镜像**：`snowdreamtech/php:8.4.22-nginx-alpine`
 
 ### Rocky
 
@@ -69,15 +67,16 @@ docker run -d \
 
 ```bash
 docker run -d \
-  --name=base \
+  --name=adminer \
+  -p 8080:80 \
   -e TZ=Asia/Shanghai \
   --restart unless-stopped \
-  snowdreamtech/base:rocky
+  snowdreamtech/adminer:rocky
 ```
 
-**支持的架构**：i386、amd64、arm32v5、arm32v7、arm64、mips64le、ppc64le、s390x
+**支持的架构**：amd64、arm64、ppc64le、s390x
 
-**基础镜像**：`snowdreamtech/rocky:10.2.0`
+**基础镜像**：`snowdreamtech/php:8.4.21-nginx-rocky`
 
 ## 构建说明
 
@@ -85,13 +84,13 @@ docker run -d \
 
 ```bash
 # 构建 Debian 变体
-docker build -t snowdreamtech/base:debian ./docker/debian/
+docker build -t snowdreamtech/adminer:debian ./docker/debian/
 
 # 构建 Alpine 变体
-docker build -t snowdreamtech/base:alpine ./docker/alpine/
+docker build -t snowdreamtech/adminer:alpine ./docker/alpine/
 
 # 构建 Rocky 变体
-docker build -t snowdreamtech/base:rocky ./docker/rocky/
+docker build -t snowdreamtech/adminer:rocky ./docker/rocky/
 ```
 
 ### 多架构构建
@@ -104,22 +103,22 @@ docker buildx create --use --name build --node build --driver-opt network=host
 
 # 为多个架构构建 Debian
 docker buildx build \
-  --platform=linux/386,linux/amd64,linux/arm/v5,linux/arm/v7,linux/arm64,linux/mips64le,linux/ppc64le,linux/s390x \
-  -t snowdreamtech/base:debian \
+  --platform=linux/386,linux/amd64,linux/arm/v5,linux/arm/v7,linux/arm64,linux/riscv64,linux/ppc64le,linux/s390x \
+  -t snowdreamtech/adminer:debian \
   ./docker/debian/ \
   --push
 
 # 为多个架构构建 Alpine
 docker buildx build \
   --platform=linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/riscv64,linux/s390x \
-  -t snowdreamtech/base:alpine \
+  -t snowdreamtech/adminer:alpine \
   ./docker/alpine/ \
   --push
 
 # 为多个架构构建 Rocky
 docker buildx build \
-  --platform=linux/386,linux/amd64,linux/arm/v5,linux/arm/v7,linux/arm64,linux/mips64le,linux/ppc64le,linux/s390x \
-  -t snowdreamtech/base:rocky \
+  --platform=linux/amd64,linux/arm64,linux/ppc64le,linux/s390x \
+  -t snowdreamtech/adminer:rocky \
   ./docker/rocky/ \
   --push
 ```
@@ -140,6 +139,11 @@ docker buildx build \
 | `USER` | `root` | 自定义用户创建的用户名 |
 | `WORKDIR` | `/root` | 工作目录路径 |
 | `TZ` | - | 时区（例如 `Asia/Shanghai`、`America/New_York`）|
+| `ADMINER_VERSION` | `5.4.2` | Adminer 版本 |
+| `ADMINER_SQLITE_PASSWORD` | `` | SQLite 免密登录插件的密码 |
+| `ADMINER_PATH` | `/var/www/html` | Adminer Web 根目录路径 |
+| `ADMINER_PLUGINS_PATH` | `/var/www/html/plugins` | Adminer 插件路径 |
+| `ADMINER_DESIGNS_PATH` | `/var/www/html/designs` | Adminer 设计/主题路径 |
 
 **Debian 特定**：
 
@@ -147,60 +151,47 @@ docker buildx build \
 |----------|---------|-------------|
 | `DEBIAN_FRONTEND` | `noninteractive` | Debian 软件包安装模式 |
 
-### 自定义用户创建
-
-在构建时创建具有特定 UID/GID 的非 root 用户：
-
-```bash
-docker build \
-  --build-arg PUID=1000 \
-  --build-arg PGID=1000 \
-  --build-arg USER=appuser \
-  -t snowdreamtech/base:debian-custom \
-  ./docker/debian/
-```
-
-或在运行时（需要重新构建镜像）：
-
-```bash
-docker run -d \
-  --name=base \
-  -e PUID=1000 \
-  -e PGID=1000 \
-  -e USER=appuser \
-  snowdreamtech/base:debian
-```
-
-**注意**：仅当 `PUID≠0`、`PGID≠0` 且 `USER≠root` 时才会创建用户。
-
 ## Docker Compose 示例
 
 ### 简单配置
 
 ```yaml
 services:
-  base:
-    image: snowdreamtech/base:debian
-    container_name: base
+  adminer:
+    image: snowdreamtech/adminer:debian
+    container_name: adminer
+    ports:
+      - "8080:80"
     environment:
       - TZ=Asia/Shanghai
     restart: unless-stopped
 ```
 
-### 高级配置
+### 搭配数据库的高级配置
 
 ```yaml
 services:
-  base:
-    image: snowdreamtech/base:debian
-    container_name: base
+  adminer:
+    image: snowdreamtech/adminer:debian
+    container_name: adminer
+    ports:
+      - "8080:80"
     environment:
       - TZ=Asia/Shanghai
       - DEBUG=true
-      - KEEPALIVE=1
-    volumes:
-      - /path/to/data:/data
     restart: unless-stopped
+
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
 ```
 
 ## 语义化版本标签
@@ -209,13 +200,13 @@ services:
 
 示例：
 
-- `snowdreamtech/base:13.5.0-debian`
-- `snowdreamtech/base:3.24.0-alpine`
-- `snowdreamtech/base:10.2.0-rocky`
+- `snowdreamtech/adminer:5.4.2-debian`
+- `snowdreamtech/adminer:5.4.2-alpine`
+- `snowdreamtech/adminer:5.4.2-rocky`
 
 此格式允许：
 
-- **完整版本固定**：`13.5.0-debian`（精确版本）
+- **完整版本固定**：`5.4.2-debian`（精确版本）
 - **变体最新标签**：`latest-debian`（跟踪 Debian 最新版本）
 - **全局最新标签**：`latest`（跟踪最新版本，默认指向 Debian）
 
@@ -225,15 +216,15 @@ services:
 
 | 变体 | 架构 |
 |---------|---------------|
-| **Debian** | i386、amd64、arm32v5、arm32v7、arm64、mips64le、ppc64le、s390x |
+| **Debian** | i386、amd64、arm32v5、arm32v7、arm64、riscv64、ppc64le、s390x |
 | **Alpine** | i386、amd64、arm32v6、arm32v7、arm64、ppc64le、riscv64、s390x |
-| **Rocky** | i386、amd64、arm32v5、arm32v7、arm64、mips64le、ppc64le、s390x |
+| **Rocky** | amd64、arm64、ppc64le、s390x |
 
 Docker 在拉取镜像时会自动为您的平台选择适当的架构。
 
 ## 入口点系统
 
-基础模板包含一个灵活的入口点系统，在启动应用程序之前执行自定义初始化脚本。
+镜像包含一个灵活的入口点系统，在启动应用程序之前执行自定义初始化脚本。
 
 ### 工作原理
 
@@ -242,82 +233,25 @@ Docker 在拉取镜像时会自动为您的平台选择适当的架构。
 3. 每个脚本都接收容器的命令行参数
 4. 如果任何脚本失败，容器将停止（快速失败行为）
 
-### 添加自定义初始化
-
-在派生的 Dockerfile 中创建自定义初始化脚本：
-
-```dockerfile
-FROM snowdreamtech/base:debian
-
-# 添加您的自定义初始化脚本
-COPY my-init.sh /usr/local/bin/entrypoint.d/20-my-init.sh
-RUN chmod +x /usr/local/bin/entrypoint.d/20-my-init.sh
-
-# 您的应用程序设置
-COPY app /app
-CMD ["/app/start.sh"]
-```
-
 ### 调试模式
 
 启用调试输出以排查入口点执行问题：
 
 ```bash
-docker run -e DEBUG=true snowdreamtech/base:debian
-```
-
-输出示例：
-
-```
-→ [ENTRYPOINT] Executing all scripts in /usr/local/bin/entrypoint.d
-→ Running /usr/local/bin/entrypoint.d/10-base-init.sh
-→ [ENTRYPOINT] Done.
-```
-
-## 开发
-
-### 前置要求
-
-- Docker（>= 20.10）
-- Docker Buildx 插件
-
-### 本地构建
-
-```bash
-# 构建所有变体
-make build
-
-# 构建特定变体
-docker build -t base:debian ./docker/debian/
-docker build -t base:alpine ./docker/alpine/
-docker build -t base:rocky ./docker/rocky/
-```
-
-### 测试
-
-```bash
-# 测试默认配置
-docker run --rm base:debian id
-
-# 测试自定义用户创建
-docker build --build-arg PUID=1000 --build-arg PGID=1000 --build-arg USER=testuser -t base:debian-test ./docker/debian/
-docker run --rm base:debian-test id
-# 预期输出：uid=1000(testuser) gid=1000(testuser)
-
-# 测试 DEBUG 模式
-docker run --rm -e DEBUG=true base:debian
+docker run -e DEBUG=true snowdreamtech/adminer:debian
 ```
 
 ## 参考资料
 
-1. [使用 buildx 构建多平台 Docker 镜像](https://icloudnative.io/posts/multiarch-docker-with-buildx/)
-2. [如何使用 docker buildx 构建跨平台 Go 镜像](https://waynerv.com/posts/building-multi-architecture-images-with-docker-buildx/#buildx-%E7%9A%84%E8%B7%A8%E5%B9%B3%E5%8F%B0%E6%9E%84%E5%BB%BA%E7%AD%96%E7%95%A5)
-3. [Building Multi-Arch Images for Arm and x86 with Docker Desktop](https://www.docker.com/blog/multi-arch-images/)
-4. [How to Rapidly Build Multi-Architecture Images with Buildx](https://www.docker.com/blog/how-to-rapidly-build-multi-architecture-images-with-buildx/)
-5. [Faster Multi-Platform Builds: Dockerfile Cross-Compilation Guide](https://www.docker.com/blog/faster-multi-platform-builds-dockerfile-cross-compilation-guide/)
-6. [docker/buildx](https://github.com/docker/buildx)
+1. [Adminer 官方网站](https://www.adminer.org/)
+2. [Adminer GitHub 仓库](https://github.com/vrana/adminer)
+3. [使用 buildx 构建多平台 Docker 镜像](https://icloudnative.io/posts/multiarch-docker-with-buildx/)
+4. [如何使用 docker buildx 构建跨平台 Go 镜像](https://waynerv.com/posts/building-multi-architecture-images-with-docker-buildx/#buildx-%E7%9A%84%E8%B7%A8%E5%B9%B3%E5%8F%B0%E6%9E%84%E5%BB%BA%E7%AD%96%E7%95%A5)
+5. [Building Multi-Arch Images for Arm and x86 with Docker Desktop](https://www.docker.com/blog/multi-arch-images/)
+6. [How to Rapidly Build Multi-Architecture Images with Buildx](https://www.docker.com/blog/how-to-rapidly-build-multi-architecture-images-with-buildx/)
+7. [docker/buildx](https://github.com/docker/buildx)
 
-## 联系方式（备注：base）
+## 联系方式（备注：adminer）
 
 * Email: <sn0wdr1am@qq.com>
 * QQ: 3217680847
