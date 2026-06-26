@@ -8,11 +8,11 @@ cat >"${ADMINER_PATH}"/index.php <<'PHP'
 <?php
 function adminer_object() {
     // required to run any plugin
-    include_once "./plugins/plugin.php";
+    
     
     // auto-load all plugins
-    foreach (glob("plugins/*.php") as $filename) {
-        include_once "./$filename";
+    foreach (glob(__DIR__ . "/plugins/*.php") as $filename) {
+        include_once "$filename";
     }
     
     $plugins = array();
@@ -36,7 +36,7 @@ function adminer_object() {
     
     // auto-load designs
     $designs = array();
-    foreach (glob("designs/*", GLOB_ONLYDIR) as $filename) {
+    foreach (glob(__DIR__ . "/designs/*", GLOB_ONLYDIR) as $filename) {
         $designs["$filename/adminer.css"] = basename($filename);
     }
     $plugins[] = new AdminerDesigns($designs);
@@ -61,11 +61,11 @@ function adminer_object() {
     //     'pg' => 'pg',
     // ));
     
-    return new AdminerPlugin($plugins);
+    return new \Adminer\Plugins($plugins);
 }
 
 // include original adminer.php
-include "./adminer.php";
+include __DIR__ . "/adminer.php";
 PHP
 
 if [ "$DEBUG" = "true" ]; then
