@@ -1,7 +1,7 @@
 # Base Image (Rocky Variant)
-# Extends snowdreamtech/rocky with additional tooling and configuration.
+# Extends snowdreamtech/php with additional tooling and configuration.
 
-FROM snowdreamtech/rocky:10.2.0
+FROM snowdreamtech/php:8.4.21-nginx-rocky
 
 # Build-time Configuration
 ARG BUILDTIME \
@@ -16,21 +16,32 @@ ARG BUILDTIME \
     PGID=0 \
     PUID=0 \
     USER=root \
-    WORKDIR=/root
+    WORKDIR=/root \
+    ADMINER_SQLITE_PASSWORD="" \
+    ADMINER_PATH=/var/www/html \
+    ADMINER_PLUGINS_PATH=/var/www/html/plugins \
+    ADMINER_DESIGNS_PATH=/var/www/html/designs
+
+# x-release-please-start-version
+ARG ADMINER_VERSION=5.4.2
+# x-release-please-end
 
 # Standard OCI Metadata (https://github.com/opencontainers/image-spec)
 LABEL org.opencontainers.image.authors="Snowdream Tech" \
-    org.opencontainers.image.title="Base Image Based On Rocky" \
-    org.opencontainers.image.description="Docker Images for Base on Rocky. (i386, amd64, arm32v5, arm32v7, arm64, mips64le, ppc64le, s390x)" \
-    org.opencontainers.image.documentation="https://hub.docker.com/r/snowdreamtech/base" \
-    org.opencontainers.image.base.name="snowdreamtech/base:rocky" \
+    org.opencontainers.image.title="Adminer Image Based On Rocky" \
+    org.opencontainers.image.description="Docker Images for Adminer on Rocky. (amd64, arm64, ppc64le, s390x)" \
+    org.opencontainers.image.documentation="https://hub.docker.com/r/snowdreamtech/adminer" \
+    org.opencontainers.image.base.name="snowdreamtech/php:8.4.21-nginx-rocky" \
     org.opencontainers.image.licenses="MIT" \
-    org.opencontainers.image.source="https://github.com/snowdreamtech/base" \
+    org.opencontainers.image.source="https://github.com/snowdreamtech/adminer" \
     org.opencontainers.image.vendor="Snowdream Tech" \
-    org.opencontainers.image.version="${VERSION:-10.2.0}" \
     org.opencontainers.image.created="${BUILDTIME}" \
     org.opencontainers.image.revision="${REVISION}" \
-    org.opencontainers.image.url="https://github.com/snowdreamtech/base"
+    org.opencontainers.image.url="https://github.com/snowdreamtech/adminer"
+
+# x-release-please-start-version
+LABEL org.opencontainers.image.version="${VERSION:-5.4.2}"
+# x-release-please-end
 
 # Runtime Environment Configuration
 ENV KEEPALIVE=${KEEPALIVE} \
@@ -42,13 +53,25 @@ ENV KEEPALIVE=${KEEPALIVE} \
     PGID=${PGID} \
     PUID=${PUID} \
     USER=${USER} \
-    WORKDIR=${WORKDIR}
+    WORKDIR=${WORKDIR} \
+    ADMINER_VERSION=${ADMINER_VERSION} \
+    ADMINER_SQLITE_PASSWORD=${ADMINER_SQLITE_PASSWORD} \
+    ADMINER_PATH=${ADMINER_PATH} \
+    ADMINER_PLUGINS_PATH=${ADMINER_PLUGINS_PATH} \
+    ADMINER_DESIGNS_PATH=${ADMINER_DESIGNS_PATH}
 
-# Additional tooling and configuration for Base image
+# Additional tooling and configuration for Adminer
 RUN set -eux \
     && dnf -y --allowerasing update \
     && dnf -y --allowerasing install \
-    vim-enhanced \
+    vim-enhanced curl tar \
+    && mkdir -p ${ADMINER_PATH} \
+    && curl -fsSL "https://github.com/vrana/adminer/releases/download/v${ADMINER_VERSION}/adminer-${ADMINER_VERSION}.php" -o ${ADMINER_PATH}/adminer.php \
+    && curl -fsSL "https://github.com/vrana/adminer/archive/refs/tags/v${ADMINER_VERSION}.tar.gz" -o adminer-src.tar.gz \
+    && tar -xzf adminer-src.tar.gz "adminer-${ADMINER_VERSION}/plugins" "adminer-${ADMINER_VERSION}/designs" \
+    && cp -r "adminer-${ADMINER_VERSION}/plugins" ${ADMINER_PATH}/ \
+    && cp -r "adminer-${ADMINER_VERSION}/designs" ${ADMINER_PATH}/ \
+    && rm -rf "adminer-${ADMINER_VERSION}" adminer-src.tar.gz \
     && dnf -y --allowerasing autoremove \
     && dnf -y --allowerasing clean all \
     && rm -rf /var/cache/dnf \
@@ -64,6 +87,7 @@ RUN chmod +x /usr/local/bin/entrypoint.d/*
 HEALTHCHECK NONE
 
 # Process Execution
+EXPOSE 80 443
 USER root
 WORKDIR /root
 ENTRYPOINT ["docker-entrypoint.sh"]
