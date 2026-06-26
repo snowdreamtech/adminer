@@ -28,18 +28,16 @@ function adminer_object() {
         $plugins[] = new AdminerLoginPasswordLess(password_hash($sqlite_pass, PASSWORD_DEFAULT));
     }
     
-    // 4. AdminerLoginServers (commented out by default)
-    // include_once __DIR__ . "/plugins/login-servers.php";
-    // $plugins[] = new AdminerLoginServers(array(
-    //     'localhost' => 'localhost',
-    //     '127.0.0.1' => '127.0.0.1',
-    //     'db' => 'db',
-    //     'mysql' => 'mysql',
-    //     'mariadb' => 'mariadb',
-    //     'sqlite' => 'sqlite',
-    //     'postgres' => 'postgres',
-    //     'pg' => 'pg',
-    // ));
+    // 4. AdminerLoginServers
+    include_once __DIR__ . "/plugins/login-servers.php";
+    $plugins[] = new AdminerLoginServers(array(
+        'MySQL (db)' => array('server' => 'db', 'driver' => 'server'),
+        'MySQL (mysql)' => array('server' => 'mysql', 'driver' => 'server'),
+        'MySQL (mariadb)' => array('server' => 'mariadb', 'driver' => 'server'),
+        'PostgreSQL (db)' => array('server' => 'db', 'driver' => 'pgsql'),
+        'PostgreSQL (postgres)' => array('server' => 'postgres', 'driver' => 'pgsql'),
+        'SQLite' => array('server' => '', 'driver' => 'sqlite'),
+    ));
     
     return new \Adminer\Plugins($plugins);
 }
