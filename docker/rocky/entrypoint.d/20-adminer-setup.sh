@@ -37,7 +37,18 @@ function adminer_object() {
         'PostgreSQL (db)' => array('server' => 'db', 'driver' => 'pgsql'),
         'PostgreSQL (postgres)' => array('server' => 'postgres', 'driver' => 'pgsql'),
         'SQLite' => array('server' => '', 'driver' => 'sqlite'),
+        'Elasticsearch' => array('server' => 'elasticsearch', 'driver' => 'elastic'),
+        'Elasticsearch (es)' => array('server' => 'es', 'driver' => 'elastic'),
+        'ClickHouse' => array('server' => 'clickhouse', 'driver' => 'clickhouse'),
+        'SimpleDB' => array('server' => 'simpledb', 'driver' => 'simpledb'),
+        'IGDB' => array('server' => 'igdb', 'driver' => 'igdb'),
     ));
+    
+    // 5. Driver Plugins
+    include_once __DIR__ . "/plugins/drivers/clickhouse.php";
+    include_once __DIR__ . "/plugins/drivers/elastic.php";
+    include_once __DIR__ . "/plugins/drivers/simpledb.php";
+    include_once __DIR__ . "/plugins/drivers/igdb.php";
     
     return new \Adminer\Plugins($plugins);
 }
