@@ -56,6 +56,7 @@ function adminer_object() {
             'PostgreSQL (db)' => array('server' => 'db', 'driver' => 'pgsql'),
             'PostgreSQL (postgres)' => array('server' => 'postgres', 'driver' => 'pgsql'),
             'SQLite' => array('server' => '', 'driver' => 'sqlite'),
+            'MongoDB (mongo)' => array('server' => 'mongo', 'driver' => 'mongo'),
             'Elasticsearch' => array('server' => 'elasticsearch', 'driver' => 'elastic'),
             'Elasticsearch (es)' => array('server' => 'es', 'driver' => 'elastic'),
             'ClickHouse' => array('server' => 'clickhouse', 'driver' => 'clickhouse'),
@@ -67,6 +68,7 @@ function adminer_object() {
     // 5. Driver Plugins
     include_once __DIR__ . "/plugins/drivers/clickhouse.php";
     include_once __DIR__ . "/plugins/drivers/elastic.php";
+    include_once __DIR__ . "/plugins/drivers/mongo.php";
     include_once __DIR__ . "/plugins/drivers/simpledb.php";
     include_once __DIR__ . "/plugins/drivers/igdb.php";
     
