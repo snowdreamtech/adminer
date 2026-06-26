@@ -1,35 +1,61 @@
 #!/bin/sh
+set -e
 
-# adminer-plugins.php
-if [ "$DEBUG" = "true" ]; then
-    rm -rfv "${ADMINER_PLUGINS_PATH}"/login-servers.php
+if [ "$DEBUG" = "true" ]; then echo "→ Setting up Adminer plugins"; fi
 
-    cat >"${ADMINER_PATH}"/adminer-plugins.php <<EOF
-<?php // adminer-plugins.php
-
-// designs autoloader
-\$designs = array();
-foreach (glob("designs/*", GLOB_ONLYDIR) as \$filename) {
-    \$designs["\$filename/adminer.css"] = basename(\$filename);
+# Ensure we have index.php to load plugins properly
+cat >"${ADMINER_PATH}"/index.php <<'PHP'
+<?php
+function adminer_object() {
+    // required to run any plugin
+    include_once "./plugins/plugin.php";
+    
+    // auto-load all plugins
+    foreach (glob("plugins/*.php") as $filename) {
+        include_once "./$filename";
+    }
+    
+    $plugins = array();
+    
+    // Auto-instantiate plugins that don't require arguments
+    foreach (get_declared_classes() as $class) {
+        if (strpos($class, 'Adminer') === 0 && $class !== 'AdminerPlugin') {
+            $ref = new ReflectionClass($class);
+            if ($ref->isInstantiable()) {
+                $constructor = $ref->getConstructor();
+                if (!$constructor || $constructor->getNumberOfRequiredParameters() == 0) {
+                    // Skip certain plugins if they conflict
+                    if ($class === 'AdminerLoginPasswordLess' || $class === 'AdminerDatabaseHide' || $class === 'AdminerDesigns') {
+                        continue;
+                    }
+                    $plugins[] = new $class();
+                }
+            }
+        }
+    }
+    
+    // auto-load designs
+    $designs = array();
+    foreach (glob("designs/*", GLOB_ONLYDIR) as $filename) {
+        $designs["$filename/adminer.css"] = basename($filename);
+    }
+    $plugins[] = new AdminerDesigns($designs);
+    
+    // manually load specific plugins requiring configuration
+    $plugins[] = new AdminerDatabaseHide(array());
+    
+    $sqlite_pass = getenv("ADMINER_SQLITE_PASSWORD");
+    if ($sqlite_pass) {
+        $plugins[] = new AdminerLoginPasswordLess(password_hash($sqlite_pass, PASSWORD_DEFAULT));
+    }
+    
+    return new AdminerPlugin($plugins);
 }
 
-return array(
-    // You can specify all plugins here or just the ones needing configuration.
-    # new AdminerDatabaseHide(array('information_schema' , 'mysql' , 'performance_schema' , 'sys')),
-    new AdminerDatabaseHide(array()),
-    new AdminerLoginPasswordLess(password_hash("${ADMINER_SQLITE_PASSWORD}", PASSWORD_DEFAULT)),
-    new AdminerDesigns(\$designs),
-    # new AdminerLoginServers(array(
-    #     'localhost' => 'localhost',
-    #     '127.0.0.1' => '127.0.0.1',
-    #     'db' => 'db',
-    #     'mysql' => 'mysql',
-    #     'mariadb' => 'mariadb',
-    #     'sqlite' => 'sqlite',
-    #     'postgres' => 'postgres',
-    #     'pg' => 'pg',
-    # ))
-);
-EOF
+// include original adminer.php
+include "./adminer.php";
+PHP
+
+if [ "$DEBUG" = "true" ]; then
     echo "ADMINER_SQLITE_PASSWORD = ${ADMINER_SQLITE_PASSWORD}"
 fi
