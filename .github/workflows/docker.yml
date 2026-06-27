@@ -187,6 +187,10 @@ jobs:
             *.rockylinux.org:443
             *.centos.org:443
             *.redhat.com:443
+            *.fedoraproject.org:443
+            *.fedoraproject.org:80
+            mirrors.fedoraproject.org:443
+            mirrors.fedoraproject.org:80
             dl-cdn.alpinelinux.org:443
             registry.npmjs.org:443
             registry.yarnpkg.com:443
@@ -202,6 +206,8 @@ jobs:
             registry.terraform.io:443
             formulae.brew.sh:443
             repo.yarnpkg.com:443
+            *.sn0wdr1am.com:443
+            sn0wdr1am.com:443
             ghcr.io:443
             pkg-containers.githubusercontent.com:443
             public.ecr.aws:443
@@ -211,10 +217,11 @@ jobs:
             *.azurecr.io:443
             osv-vulnerabilities.storage.googleapis.com:443
             api.osv.dev:443
+            168.63.129.16:53
+            check.trivy.dev:443
             get.trivy.dev:443
             *.aquasecurity.github.io:443
             *.sigstore.dev:443
-
       - name: "🧹 Optimize Runner Disk Space"
         if: steps.variant-filter.outputs.skip != 'true'
         uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be # v1.3.1
