@@ -101,7 +101,7 @@ jobs:
       packages: write
       id-token: write
       security-events: write
-    timeout-minutes: 60
+    timeout-minutes: 360
     env:
       TRIVY_CACHE_DIR: .trivycache
       BUILD_START_TIME: ${{ github.event.repository.updated_at }}
@@ -163,65 +163,6 @@ jobs:
           echo "timestamp=$(date -u +%s)" >> "$GITHUB_OUTPUT"
           echo "datetime=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
 
-      - name: "🔒 Harden Runner (Security Egress Audit)"
-        if: steps.variant-filter.outputs.skip != 'true'
-        uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
-        with:
-          egress-policy: block
-          allowed-endpoints: >
-            api.github.com:443
-            codeload.github.com:443
-            *.githubusercontent.com:443
-            github.com:443
-            packages.microsoft.com:443
-            docker.io:443
-            *.docker.io:443
-            docker.com:443
-            *.docker.com:443
-            quay.io:443
-            *.quay.io:443
-            *.ubuntu.com:80
-            *.ubuntu.com:443
-            *.debian.org:80
-            *.debian.org:443
-            *.rockylinux.org:443
-            *.centos.org:443
-            *.redhat.com:443
-            *.fedoraproject.org:443
-            *.fedoraproject.org:80
-            mirrors.fedoraproject.org:443
-            mirrors.fedoraproject.org:80
-            dl-cdn.alpinelinux.org:443
-            registry.npmjs.org:443
-            registry.yarnpkg.com:443
-            pypi.org:443
-            files.pythonhosted.org:443
-            proxy.golang.org:443
-            sum.golang.org:443
-            index.crates.io:443
-            static.rust-lang.org:443
-            packagist.org:443
-            repo.maven.apache.org:443
-            rubygems.org:443
-            registry.terraform.io:443
-            formulae.brew.sh:443
-            repo.yarnpkg.com:443
-            *.sn0wdr1am.com:443
-            sn0wdr1am.com:443
-            ghcr.io:443
-            pkg-containers.githubusercontent.com:443
-            public.ecr.aws:443
-            *.gcr.io:443
-            *.pkg.dev:443
-            *.dkr.ecr.*.amazonaws.com:443
-            *.azurecr.io:443
-            osv-vulnerabilities.storage.googleapis.com:443
-            api.osv.dev:443
-            168.63.129.16:53
-            check.trivy.dev:443
-            get.trivy.dev:443
-            *.aquasecurity.github.io:443
-            *.sigstore.dev:443
       - name: "🧹 Optimize Runner Disk Space"
         if: steps.variant-filter.outputs.skip != 'true'
         uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be # v1.3.1
@@ -236,14 +177,14 @@ jobs:
 
       - name: "📂 Checkout Repository Code"
         if: steps.variant-filter.outputs.skip != 'true'
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: ${{ secrets.WORKFLOW_SECRET || secrets.GITHUB_TOKEN }}
           persist-credentials: false
 
       - name: "⚡ Cache Trivy Database"
         if: steps.variant-filter.outputs.skip != 'true'
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: .trivycache
           key: ${{ runner.os }}-trivy-${{ github.run_id }}
@@ -252,11 +193,11 @@ jobs:
 
       - name: "🏗️ Configure QEMU Emulation"
         if: steps.variant-filter.outputs.skip != 'true'
-        uses: docker/setup-qemu-action@06116385d9baf250c9f4dcb4858b16962ea869c3 # v4.1.0
+        uses: docker/setup-qemu-action@96fe6ef7f33517b61c61be40b68a1882f3264fb8 # v4.2.0
 
       - name: "🛠️ Configure Docker Buildx"
         if: steps.variant-filter.outputs.skip != 'true'
-        uses: docker/setup-buildx-action@d7f5e7f509e45cec5c76c4d5afdd7de93d0b3df5 # v4.1.0
+        uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4.2.0
         with:
           buildkitd-config: .github/buildkitd.toml
 
@@ -264,7 +205,7 @@ jobs:
         if: steps.variant-filter.outputs.skip != 'true'
         id: login-dockerhub
         continue-on-error: true
-        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
+        uses: docker/login-action@371161bbe7024a29a25c5e19bfcbc0804fe9ad2c # v4.5.2
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
@@ -273,7 +214,7 @@ jobs:
         if: steps.variant-filter.outputs.skip != 'true'
         id: login-quay
         continue-on-error: true
-        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
+        uses: docker/login-action@371161bbe7024a29a25c5e19bfcbc0804fe9ad2c # v4.5.2
         with:
           registry: quay.io
           username: ${{ secrets.QUAY_USERNAME }}
@@ -283,7 +224,7 @@ jobs:
         if: steps.variant-filter.outputs.skip != 'true'
         id: login-ghcr
         continue-on-error: true
-        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
+        uses: docker/login-action@371161bbe7024a29a25c5e19bfcbc0804fe9ad2c # v4.5.2
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
@@ -304,15 +245,25 @@ jobs:
             exit 1
           fi
 
+      - name: "🎯 Check if tag is stable release"
+        id: tag-check
+        if: steps.variant-filter.outputs.skip != 'true'
+        run: |
+          if echo "${{ github.ref }}" | grep -Eq "^refs/tags/${{ matrix.variant }}-v?[0-9]+\.[0-9]+\.[0-9]+$"; then
+            echo "is_stable=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "is_stable=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: "🏷️ Generate Docker Metadata"
         if: steps.variant-filter.outputs.skip != 'true'
         id: meta
-        uses: docker/metadata-action@80c7e94dd9b9319bd5eb7a0e0fe9291e23a2a2e9 # v6.1.0
+        uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
         with:
           images: |
-            name=snowdreamtech/adminer,enable=true
-            name=ghcr.io/snowdreamtech/adminer,enable=true
-            name=quay.io/snowdreamtech/adminer,enable=true
+            name=ghcr.io/snowdreamtech/base,enable=true
+            name=snowdreamtech/base,enable=true
+            name=quay.io/snowdreamtech/base,enable=true
           flavor: |
             latest=false
             prefix=
@@ -324,32 +275,28 @@ jobs:
             type=raw,enable=${{ contains(fromJSON('["refs/heads/main", "refs/heads/master"]'), github.ref) && github.event_name != 'schedule' }},priority=200,prefix=,suffix=-${{ matrix.variant }},value=latest
             # Main/master branch - global latest tag (only for is_latest variant, no suffix)
             type=raw,enable=${{ matrix.is_latest && contains(fromJSON('["refs/heads/main", "refs/heads/master"]'), github.ref) && github.event_name != 'schedule' }},priority=200,prefix=,suffix=,value=latest
-            # Tag builds - variant-suffixed tag
-            type=raw,enable=${{ startsWith(github.ref, format('refs/tags/{0}-', matrix.variant)) }},priority=200,prefix=,suffix=-${{ matrix.variant }},value=latest
-            # Tag builds - global latest tag (only for is_latest variant, no suffix)
-            type=raw,enable=${{ matrix.is_latest && startsWith(github.ref, format('refs/tags/{0}-', matrix.variant)) }},priority=200,prefix=,suffix=,value=latest
+            # Tag builds - variant-suffixed tag (stable only)
+            type=raw,enable=${{ steps.tag-check.outputs.is_stable == 'true' }},priority=200,prefix=,suffix=-${{ matrix.variant }},value=latest
+            # Tag builds - global latest tag (only for is_latest variant, no suffix, stable only)
+            type=raw,enable=${{ matrix.is_latest && steps.tag-check.outputs.is_stable == 'true' }},priority=200,prefix=,suffix=,value=latest
             # Nightly builds - variant-suffixed
             type=schedule,enable=true,priority=1000,prefix=,suffix=-${{ matrix.variant }},pattern=nightly
             # Nightly builds - global nightly tag (only for is_latest variant, no suffix)
             type=schedule,enable=${{ matrix.is_latest }},priority=1000,prefix=,suffix=,pattern=nightly
-            # Date-based tags for traceability (YYYYMMDD) - variant-suffixed
-            type=schedule,enable=true,priority=900,prefix=,suffix=-${{ matrix.variant }},pattern={{date 'YYYYMMDD'}}
-            # Date-based tags - global tag (only for is_latest variant, no suffix)
-            type=schedule,enable=${{ matrix.is_latest }},priority=900,prefix=,suffix=,pattern={{date 'YYYYMMDD'}}
             # Semantic version tags from Release Please (variant-x.y.z) - variant-suffixed
-            type=match,enable=${{ startsWith(github.ref, format('refs/tags/{0}-', matrix.variant)) }},priority=800,prefix=,suffix=-${{ matrix.variant }},pattern=${{ matrix.variant }}-v?(\d+\.\d+\.\d+),group=1
+            type=match,enable=${{ startsWith(github.ref, format('refs/tags/{0}-', matrix.variant)) }},priority=800,prefix=,suffix=-${{ matrix.variant }},pattern=${{ matrix.variant }}-v?(.*),group=1
         env:
           DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
 
       - name: "🚀 Orchestrate Build & Delivery Suite"
         id: build
         if: steps.variant-filter.outputs.skip != 'true'
-        uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf # v7.2.0
+        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
         with:
           context: ${{ matrix.context }}
           build-args: |
             BUILDTIME=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }}
-            VERSION=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
+            VERSION=${{ matrix.version }}
             REVISION=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.revision'] }}
           platforms: ${{ matrix.platforms }}
           provenance: true
@@ -393,8 +340,11 @@ jobs:
         env:
           IMAGE_DIGEST: ${{ steps.build.outputs.digest }}
         run: |
-          # Get the first tag for inspection
-          first_tag=$(echo "${{ steps.meta.outputs.tags }}" | head -n 1)
+          # Use GHCR tag for inspection to avoid DockerHub rate limits
+          first_tag=$(echo "${{ steps.meta.outputs.tags }}" | grep '^ghcr.io/' | head -n 1)
+          if [ -z "$first_tag" ]; then
+            first_tag=$(echo "${{ steps.meta.outputs.tags }}" | head -n 1)
+          fi
 
           echo "→ Inspecting manifest for: ${first_tag}"
 
@@ -503,22 +453,6 @@ jobs:
           }
 
           # Test images from each registry
-          # DockerHub (no prefix)
-          if [ "${{ steps.login-dockerhub.outcome }}" = "success" ]; then
-            dockerhub_tag=$(echo "${TAGS}" | grep -v '/' | head -n 1)
-            if [ -n "${dockerhub_tag}" ]; then
-              echo "  Testing DockerHub: ${dockerhub_tag}"
-              if retry_pull "${dockerhub_tag}"; then
-                if run_smoke_test "${dockerhub_tag}" "DockerHub"; then
-                  size=$(docker image inspect "${dockerhub_tag}" --format='{{.Size}}' | awk '{printf "%.2f MB", $1/1024/1024}')
-                  echo "  ✓ DockerHub image verified (Size: ${size})"
-                fi
-              else
-                echo "  ✗ DockerHub image pull failed after retries"
-              fi
-            fi
-          fi
-
           # GHCR
           if [ "${{ steps.login-ghcr.outcome }}" = "success" ]; then
             ghcr_tag=$(echo "${TAGS}" | grep '^ghcr.io/' | head -n 1)
@@ -531,6 +465,22 @@ jobs:
                 fi
               else
                 echo "  ✗ GHCR image pull failed after retries"
+              fi
+            fi
+          fi
+
+          # DockerHub (no prefix)
+          if [ "${{ steps.login-dockerhub.outcome }}" = "success" ]; then
+            dockerhub_tag=$(echo "${TAGS}" | grep -v '/' | head -n 1)
+            if [ -n "${dockerhub_tag}" ]; then
+              echo "  Testing DockerHub: ${dockerhub_tag}"
+              if retry_pull "${dockerhub_tag}"; then
+                if run_smoke_test "${dockerhub_tag}" "DockerHub"; then
+                  size=$(docker image inspect "${dockerhub_tag}" --format='{{.Size}}' | awk '{printf "%.2f MB", $1/1024/1024}')
+                  echo "  ✓ DockerHub image verified (Size: ${size})"
+                fi
+              else
+                echo "  ✗ DockerHub image pull failed after retries"
               fi
             fi
           fi
@@ -553,6 +503,19 @@ jobs:
 
           echo "✓ Registry verification completed"
 
+      - name: "🏷️ Determine Image for Trivy Scan"
+        id: trivy-image
+        if: steps.variant-filter.outputs.skip != 'true' && steps.build.conclusion == 'success'
+        run: |
+          # Use GHCR tag for Trivy scan to avoid Docker Hub rate limits
+          # Fallback to the first generated tag if GHCR is not found
+          SCAN_TAG=$(echo "${{ steps.meta.outputs.tags }}" | grep '^ghcr.io/' | head -n 1)
+          if [ -z "${SCAN_TAG}" ]; then
+            SCAN_TAG="${{ fromJSON(steps.meta.outputs.json).tags[0] }}"
+          fi
+          echo "tag=${SCAN_TAG}" >> "$GITHUB_OUTPUT"
+          echo "→ Scanning image: ${SCAN_TAG}"
+
       - name: "🕵️ Scan Image for Vulnerabilities (Trivy)"
         id: trivy
         if: steps.variant-filter.outputs.skip != 'true' && steps.build.conclusion == 'success'
@@ -563,7 +526,7 @@ jobs:
           TRIVY_CHECKS_BUNDLE_REPOSITORY: "public.ecr.aws/aquasecurity/trivy-checks"
         with:
           scan-type: "image"
-          image-ref: ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
+          image-ref: ${{ steps.trivy-image.outputs.tag }}
           format: "sarif"
           output: "trivy-image-${{ matrix.variant }}.sarif"
           severity: "CRITICAL,HIGH,MEDIUM,LOW"
@@ -599,7 +562,7 @@ jobs:
       - name: "📤 Upload Image Security Scan (SARIF)"
         if: steps.variant-filter.outputs.skip != 'true' && steps.build.conclusion == 'success' && steps.trivy.outcome == 'success'
         continue-on-error: true
-        uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4.36.2
+        uses: github/codeql-action/upload-sarif@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.37.3
         with:
           sarif_file: "trivy-image-${{ matrix.variant }}.sarif"
           category: "trivy-image-adminer-${{ matrix.variant }}"

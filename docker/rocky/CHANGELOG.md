@@ -23,7 +23,7 @@
 * Update plugin loading for Adminer 5.x compatibility ([0d448b7](https://github.com/snowdreamtech/adminer/commit/0d448b79fbad0de0d6d10a9004b28e564343540e))
 
 
-### 🛠 Refactoring
+### 🐛 Bug Fixes
 
 * **docker:** align Dockerfiles with base image structure ([232574f](https://github.com/snowdreamtech/adminer/commit/232574fed8418f8c7f257d001e951361dfa467a0))
 * migrate Dockerfiles to dev skeleton and update adminer versions ([5a27404](https://github.com/snowdreamtech/adminer/commit/5a274049c33b6571556f1e681244c128cd64551f))
