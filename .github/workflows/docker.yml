@@ -261,9 +261,9 @@ jobs:
         uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
         with:
           images: |
-            name=ghcr.io/snowdreamtech/base,enable=true
-            name=snowdreamtech/base,enable=true
-            name=quay.io/snowdreamtech/base,enable=true
+            name=ghcr.io/snowdreamtech/adminer,enable=true
+            name=snowdreamtech/adminer,enable=true
+            name=quay.io/snowdreamtech/adminer,enable=true
           flavor: |
             latest=false
             prefix=
