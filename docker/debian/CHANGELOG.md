@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.5.1](https://github.com/snowdreamtech/adminer/compare/debian-v5.5.0...debian-v5.5.1) (2026-08-06)
+
+
+### ♻️ Miscellaneous Chores
+
+* bump Adminer version to 5.5.1 ([e489f89](https://github.com/snowdreamtech/adminer/commit/e489f8915f96d034b8f0431f35c972fc87dfcb8d))
+
 ## [5.5.0](https://github.com/snowdreamtech/adminer/compare/debian-v5.4.4...debian-v5.5.0) (2026-08-06)
 
 
