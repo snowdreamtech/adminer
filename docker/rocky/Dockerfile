@@ -24,7 +24,7 @@ ARG BUILDTIME \
     ADMINER_DEFAULT_SERVER_MODE=true
 
 # x-release-please-start-version
-ARG ADMINER_VERSION=5.5.0
+ARG ADMINER_VERSION=5.5.1
 # x-release-please-end
 
 # Standard OCI Metadata (https://github.com/opencontainers/image-spec)
@@ -41,7 +41,7 @@ LABEL org.opencontainers.image.authors="Snowdream Tech" \
     org.opencontainers.image.url="https://github.com/snowdreamtech/adminer"
 
 # x-release-please-start-version
-LABEL org.opencontainers.image.version="${VERSION:-5.5.0}"
+LABEL org.opencontainers.image.version="${VERSION:-5.5.1}"
 # x-release-please-end
 
 # Runtime Environment Configuration
