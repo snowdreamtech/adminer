@@ -139,7 +139,7 @@ All variants support the following environment variables for runtime configurati
 | `USER` | `root` | Username for custom user creation |
 | `WORKDIR` | `/root` | Working directory path |
 | `TZ` | - | Timezone (e.g., `Asia/Shanghai`, `America/New_York`) |
-| `ADMINER_VERSION` | `5.4.4` | Adminer version |
+| `ADMINER_VERSION` | `5.5.0` | Adminer version |
 | `ADMINER_SQLITE_PASSWORD` | `` | SQLite password for passwordless login plugin |
 | `ADMINER_PATH` | `/var/www/html` | Path to Adminer web root |
 | `ADMINER_PLUGINS_PATH` | `/var/www/html/plugins` | Path to Adminer plugins |
@@ -200,13 +200,13 @@ Images follow semantic versioning with the format: `{major}.{minor}.{patch}-{var
 
 Examples:
 
-- `snowdreamtech/adminer:5.4.4-debian`
-- `snowdreamtech/adminer:5.4.4-alpine`
-- `snowdreamtech/adminer:5.4.4-rocky`
+- `snowdreamtech/adminer:5.5.0-debian`
+- `snowdreamtech/adminer:5.5.0-alpine`
+- `snowdreamtech/adminer:5.5.0-rocky`
 
 This format allows:
 
-- **Full version pinning**: `5.4.4-debian` (exact version)
+- **Full version pinning**: `5.5.0-debian` (exact version)
 - **Variant latest tag**: `latest-debian` (tracks most recent release for Debian)
 - **Global latest tag**: `latest` (tracks most recent release, defaults to Debian)
 

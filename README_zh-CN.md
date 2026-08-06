@@ -139,7 +139,7 @@ docker buildx build \
 | `USER` | `root` | 自定义用户创建的用户名 |
 | `WORKDIR` | `/root` | 工作目录路径 |
 | `TZ` | - | 时区（例如 `Asia/Shanghai`、`America/New_York`）|
-| `ADMINER_VERSION` | `5.4.4` | Adminer 版本 |
+| `ADMINER_VERSION` | `5.5.0` | Adminer 版本 |
 | `ADMINER_SQLITE_PASSWORD` | `` | SQLite 免密登录插件的密码 |
 | `ADMINER_PATH` | `/var/www/html` | Adminer Web 根目录路径 |
 | `ADMINER_PLUGINS_PATH` | `/var/www/html/plugins` | Adminer 插件路径 |
@@ -200,13 +200,13 @@ volumes:
 
 示例：
 
-- `snowdreamtech/adminer:5.4.4-debian`
-- `snowdreamtech/adminer:5.4.4-alpine`
-- `snowdreamtech/adminer:5.4.4-rocky`
+- `snowdreamtech/adminer:5.5.0-debian`
+- `snowdreamtech/adminer:5.5.0-alpine`
+- `snowdreamtech/adminer:5.5.0-rocky`
 
 此格式允许：
 
-- **完整版本固定**：`5.4.4-debian`（精确版本）
+- **完整版本固定**：`5.5.0-debian`（精确版本）
 - **变体最新标签**：`latest-debian`（跟踪 Debian 最新版本）
 - **全局最新标签**：`latest`（跟踪最新版本，默认指向 Debian）
 
