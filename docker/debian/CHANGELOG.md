@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.4.4](https://github.com/snowdreamtech/adminer/compare/debian-v5.4.3...debian-v5.4.4) (2026-08-06)
+
+
+### ♻️ Miscellaneous Chores
+
+* bump Adminer version to 5.4.4 ([9af6c61](https://github.com/snowdreamtech/adminer/commit/9af6c6194a958d50bf2090dd8c750fcf425c6989))
+
 ## [5.4.3](https://github.com/snowdreamtech/adminer/compare/debian-v5.4.2...debian-v5.4.3) (2026-08-06)
 
 
