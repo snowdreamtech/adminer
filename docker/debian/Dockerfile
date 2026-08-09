@@ -31,7 +31,7 @@ ARG ADMINER_VERSION=5.5.1
 # Standard OCI Metadata (https://github.com/opencontainers/image-spec)
 LABEL org.opencontainers.image.authors="Snowdream Tech" \
     org.opencontainers.image.title="Adminer Image Based On Debian" \
-    org.opencontainers.image.description="Docker Images for Adminer on Debian. (i386, amd64, arm32v5, arm32v7, arm64, riscv64, ppc64le, s390x)" \
+    org.opencontainers.image.description="Docker Images for Adminer on Debian. (amd64, arm32v7, arm64, ppc64le, riscv64, s390x)" \
     org.opencontainers.image.documentation="https://hub.docker.com/r/snowdreamtech/adminer" \
     org.opencontainers.image.base.name="snowdreamtech/php:8.4.16-nginx-debian" \
     org.opencontainers.image.licenses="MIT" \

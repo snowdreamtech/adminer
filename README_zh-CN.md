@@ -40,7 +40,7 @@ docker run -d \
   snowdreamtech/adminer:debian
 ```
 
-**支持的架构**：i386、amd64、arm32v5、arm32v7、arm64、riscv64、ppc64le、s390x
+**支持的架构**：amd64、arm32v7、arm64、ppc64le、riscv64、s390x
 
 **基础镜像**：`snowdreamtech/php:8.4.16-nginx-debian`
 
@@ -216,7 +216,7 @@ volumes:
 
 | 变体 | 架构 |
 |---------|---------------|
-| **Debian** | i386、amd64、arm32v5、arm32v7、arm64、riscv64、ppc64le、s390x |
+| **Debian** | amd64、arm32v7、arm64、ppc64le、riscv64、s390x |
 | **Alpine** | i386、amd64、arm32v6、arm32v7、arm64、ppc64le、riscv64、s390x |
 | **Rocky** | amd64、arm64、ppc64le、s390x |
 

@@ -40,7 +40,7 @@ docker run -d \
   snowdreamtech/adminer:debian
 ```
 
-**Supported Architectures**: i386, amd64, arm32v5, arm32v7, arm64, riscv64, ppc64le, s390x
+**Supported Architectures**: amd64, arm32v7, arm64, ppc64le, riscv64, s390x
 
 **Base Image**: `snowdreamtech/php:8.4.16-nginx-debian`
 
@@ -216,7 +216,7 @@ Each distribution variant supports multiple CPU architectures for deployment acr
 
 | Variant | Architectures |
 |---------|---------------|
-| **Debian** | i386, amd64, arm32v5, arm32v7, arm64, riscv64, ppc64le, s390x |
+| **Debian** | amd64, arm32v7, arm64, ppc64le, riscv64, s390x |
 | **Alpine** | i386, amd64, arm32v6, arm32v7, arm64, ppc64le, riscv64, s390x |
 | **Rocky** | amd64, arm64, ppc64le, s390x |
 
