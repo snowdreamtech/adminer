@@ -1,5 +1,16 @@
 # Changelog
 
+## [6.0.0](https://github.com/snowdreamtech/adminer/compare/debian-v5.5.1...debian-v6.0.0) (2026-08-09)
+
+
+### ♻️ Miscellaneous Chores
+
+* apply lint-all auto-fixes ([3258857](https://github.com/snowdreamtech/adminer/commit/3258857d7ce59341ccc09a96a168ec57fb057347))
+* merge upstream/dev into dev ([a9c3e08](https://github.com/snowdreamtech/adminer/commit/a9c3e088e50f3d26c72a292a69a1376360051bf4))
+* release main ([c9db13e](https://github.com/snowdreamtech/adminer/commit/c9db13ecc5033081c703e996d33c7503860ec15e))
+* **release:** deduplicate CHANGELOG headers ([a186680](https://github.com/snowdreamtech/adminer/commit/a186680625ac23b3ebbdf41e75a7370f38e03d22))
+* sync debian build matrix and documentation with upstream ([0d6e613](https://github.com/snowdreamtech/adminer/commit/0d6e6132c84a368f5b64b9144d9c7d3b7292d746))
+
 ## [5.5.1](https://github.com/snowdreamtech/adminer/compare/debian-v5.5.0...debian-v5.5.1) (2026-08-06)
 
 

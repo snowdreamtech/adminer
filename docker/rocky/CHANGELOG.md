@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.0.0](https://github.com/snowdreamtech/adminer/compare/rocky-v5.5.1...rocky-v6.0.0) (2026-08-09)
+
+
+### ♻️ Miscellaneous Chores
+
+* apply lint-all auto-fixes ([3258857](https://github.com/snowdreamtech/adminer/commit/3258857d7ce59341ccc09a96a168ec57fb057347))
+
 ## [5.5.1](https://github.com/snowdreamtech/adminer/compare/rocky-v5.5.0...rocky-v5.5.1) (2026-08-06)
 
 
