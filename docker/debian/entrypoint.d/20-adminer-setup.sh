@@ -25,7 +25,7 @@ function adminer_object() {
     }
 
     $plugins = array();
-    
+
     // 1. AdminerDesigns
     include_once __DIR__ . "/plugins/designs.php";
     $designs = array();
@@ -33,18 +33,18 @@ function adminer_object() {
         $designs["designs/" . basename($filename) . "/adminer.css"] = basename($filename);
     }
     $plugins[] = new AdminerDesigns($designs);
-    
+
     // 2. AdminerDatabaseHide
     include_once __DIR__ . "/plugins/database-hide.php";
     $plugins[] = new AdminerDatabaseHide(array());
-    
+
     // 3. AdminerLoginPasswordLess
     $sqlite_pass = getenv("ADMINER_SQLITE_PASSWORD");
     if ($sqlite_pass) {
         include_once __DIR__ . "/plugins/login-password-less.php";
         $plugins[] = new AdminerLoginPasswordLess(password_hash($sqlite_pass, PASSWORD_DEFAULT));
     }
-    
+
     // 4. AdminerLoginServers (controlled by env var)
     $server_mode = getenv("ADMINER_DEFAULT_SERVER_MODE");
     if ($server_mode !== "false" && $server_mode !== "0") {
@@ -64,15 +64,15 @@ function adminer_object() {
             'IGDB' => array('server' => 'igdb', 'driver' => 'igdb'),
         ));
     }
-    
+
     // 5. Driver Plugins
     include_once __DIR__ . "/plugins/drivers/clickhouse.php";
     include_once __DIR__ . "/plugins/drivers/elastic.php";
     include_once __DIR__ . "/plugins/drivers/mongo.php";
     include_once __DIR__ . "/plugins/drivers/simpledb.php";
     include_once __DIR__ . "/plugins/drivers/igdb.php";
-    
-    
+
+
     return new \Adminer\Plugins($plugins);
 }
 
@@ -81,5 +81,5 @@ include __DIR__ . "/adminer.php";
 PHP
 
 if [ "$DEBUG" = "true" ]; then
-    echo "ADMINER_SQLITE_PASSWORD = ${ADMINER_SQLITE_PASSWORD}"
+  echo "ADMINER_SQLITE_PASSWORD = ${ADMINER_SQLITE_PASSWORD}"
 fi
