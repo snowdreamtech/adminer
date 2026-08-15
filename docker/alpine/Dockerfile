@@ -23,10 +23,6 @@ ARG BUILDTIME \
     ADMINER_DESIGNS_PATH=/var/www/html/designs \
     ADMINER_DEFAULT_SERVER_MODE=true
 
-# x-release-please-start-version
-ARG ADMINER_VERSION=6.0.0
-# x-release-please-end
-
 # Standard OCI Metadata (https://github.com/opencontainers/image-spec)
 LABEL org.opencontainers.image.authors="Snowdream Tech" \
     org.opencontainers.image.title="Adminer Image Based On Alpine" \
@@ -36,13 +32,10 @@ LABEL org.opencontainers.image.authors="Snowdream Tech" \
     org.opencontainers.image.licenses="MIT" \
     org.opencontainers.image.source="https://github.com/snowdreamtech/adminer" \
     org.opencontainers.image.vendor="Snowdream Tech" \
+    org.opencontainers.image.version="${VERSION}" \
     org.opencontainers.image.created="${BUILDTIME}" \
     org.opencontainers.image.revision="${REVISION}" \
     org.opencontainers.image.url="https://github.com/snowdreamtech/adminer"
-
-# x-release-please-start-version
-LABEL org.opencontainers.image.version="${VERSION:-6.0.0}"
-# x-release-please-end
 
 # Runtime Environment Configuration
 ENV KEEPALIVE=${KEEPALIVE} \
@@ -55,7 +48,7 @@ ENV KEEPALIVE=${KEEPALIVE} \
     PUID=${PUID} \
     USER=${USER} \
     WORKDIR=${WORKDIR} \
-    ADMINER_VERSION=${ADMINER_VERSION} \
+    ADMINER_VERSION=${VERSION} \
     ADMINER_SQLITE_PASSWORD=${ADMINER_SQLITE_PASSWORD} \
     ADMINER_PATH=${ADMINER_PATH} \
     ADMINER_PLUGINS_PATH=${ADMINER_PLUGINS_PATH} \
