@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.0.1](https://github.com/snowdreamtech/adminer/compare/rocky-v6.0.0...rocky-v6.0.1) (2026-08-15)
+
+
+### ♻️ Miscellaneous Chores
+
+* upgrade Adminer version from 6.0.0 to 6.0.1 ([2075239](https://github.com/snowdreamtech/adminer/commit/20752399d590708898c38929520a666d35cfbb80))
+
 ## [6.0.0](https://github.com/snowdreamtech/adminer/compare/rocky-v5.5.1...rocky-v6.0.0) (2026-08-09)
 
 
