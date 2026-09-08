@@ -5,6 +5,11 @@
 
 ### ♻️ Miscellaneous Chores
 
+* **docker:** ignore unavailable repos for rocky build ([a6b6b6e](https://github.com/snowdreamtech/base/commit/a6b6b6e5b2288cfeb6b2777902b85e7e5f37f2c3))
+
+
+### ♻️ Miscellaneous Chores
+
 * upgrade Adminer version from 6.0.0 to 6.0.1 ([2075239](https://github.com/snowdreamtech/adminer/commit/20752399d590708898c38929520a666d35cfbb80))
 
 ## [6.0.0](https://github.com/snowdreamtech/adminer/compare/rocky-v5.5.1...rocky-v6.0.0) (2026-08-09)

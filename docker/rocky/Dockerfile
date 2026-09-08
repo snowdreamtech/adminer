@@ -57,8 +57,8 @@ ENV KEEPALIVE=${KEEPALIVE} \
 
 # Additional tooling and configuration for Adminer
 RUN set -eux \
-    && dnf -y --allowerasing update \
-    && dnf -y --allowerasing install \
+    && dnf -y --allowerasing --setopt=*.skip_if_unavailable=true update \
+    && dnf -y --allowerasing --setopt=*.skip_if_unavailable=true install \
     vim-enhanced curl tar \
     && mkdir -p ${ADMINER_PATH} \
     && curl -fsSL "https://github.com/vrana/adminer/releases/download/v${ADMINER_VERSION}/adminer-${ADMINER_VERSION}.php" -o ${ADMINER_PATH}/adminer.php \
