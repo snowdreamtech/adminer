@@ -1,5 +1,19 @@
 # Changelog
 
+## [6.0.2](https://github.com/snowdreamtech/adminer/compare/rocky-v6.0.1...rocky-v6.0.2) (2026-09-08)
+
+
+### 🚀 Features
+
+* **release:** initialize VERSION ARG in Dockerfiles for Release-Please change tracking ([1e1dd32](https://github.com/snowdreamtech/adminer/commit/1e1dd326ae9ce0c27a3c15d611443876282ae218))
+
+
+### ♻️ Miscellaneous Chores
+
+* merge upstream/dev into dev ([4e09eb3](https://github.com/snowdreamtech/adminer/commit/4e09eb3aa0349f590dd85418a4d4f21c14439298))
+* release main ([f02b25f](https://github.com/snowdreamtech/adminer/commit/f02b25f841191eb64887a336d230ee952d0bf0a2))
+* **release:** deduplicate CHANGELOG headers ([656f92c](https://github.com/snowdreamtech/adminer/commit/656f92c06f70b548a9fabf4db3fb1f02daf18733))
+
 ## [6.0.1](https://github.com/snowdreamtech/adminer/compare/rocky-v6.0.0...rocky-v6.0.1) (2026-08-15)
 
 

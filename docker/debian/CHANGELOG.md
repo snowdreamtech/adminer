@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.0.2](https://github.com/snowdreamtech/adminer/compare/debian-v6.0.1...debian-v6.0.2) (2026-09-08)
+
+
+### 🚀 Features
+
+* **release:** initialize VERSION ARG in Dockerfiles for Release-Please change tracking ([1e1dd32](https://github.com/snowdreamtech/adminer/commit/1e1dd326ae9ce0c27a3c15d611443876282ae218))
+
 ## [6.0.1](https://github.com/snowdreamtech/adminer/compare/debian-v6.0.0...debian-v6.0.1) (2026-08-15)
 
 
