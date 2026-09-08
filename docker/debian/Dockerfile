@@ -4,8 +4,11 @@
 FROM snowdreamtech/php:8.4.16-nginx-debian
 
 # Build-time Configuration
+# x-release-please-start-version
+ARG VERSION="6.0.2"
+# x-release-please-end
+
 ARG BUILDTIME \
-    VERSION \
     REVISION \
     DEBIAN_FRONTEND=noninteractive \
     KEEPALIVE=0 \
