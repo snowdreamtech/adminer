@@ -1,39 +1,35 @@
-# Base
+# Adminer
 
-[![CI Pipeline](https://img.shields.io/github/actions/workflow/status/snowdreamtech/base/ci.yml?branch=main&label=CI%20Pipeline)](https://github.com/snowdreamtech/base/actions/workflows/ci.yml)
-[![CD Pipeline](https://img.shields.io/github/actions/workflow/status/snowdreamtech/base/cd.yml?branch=main&label=CD%20Pipeline)](https://github.com/snowdreamtech/base/actions/workflows/cd.yml)
-[![CodeQL](https://img.shields.io/github/actions/workflow/status/snowdreamtech/base/codeql.yml?branch=main&label=CodeQL&logo=github)](https://github.com/snowdreamtech/base/actions/workflows/codeql.yml)
-[![Security Audit](https://img.shields.io/badge/Security-Zizmor%20%7C%20Trivy%20%7C%20Gitleaks-brightgreen)](https://github.com/snowdreamtech/base/actions/workflows/ci.yml)
+[![CI Pipeline](https://img.shields.io/github/actions/workflow/status/snowdreamtech/adminer/ci.yml?branch=main&label=CI%20Pipeline)](https://github.com/snowdreamtech/adminer/actions/workflows/ci.yml)
+[![CD Pipeline](https://img.shields.io/github/actions/workflow/status/snowdreamtech/adminer/cd.yml?branch=main&label=CD%20Pipeline)](https://github.com/snowdreamtech/adminer/actions/workflows/cd.yml)
+[![CodeQL](https://img.shields.io/github/actions/workflow/status/snowdreamtech/adminer/codeql.yml?branch=main&label=CodeQL&logo=github)](https://github.com/snowdreamtech/adminer/actions/workflows/codeql.yml)
+[![Security Audit](https://img.shields.io/badge/Security-Zizmor%20%7C%20Trivy%20%7C%20Gitleaks-brightgreen)](https://github.com/snowdreamtech/adminer/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/license/MIT)
-![Docker Image Version](https://img.shields.io/docker/v/snowdreamtech/base)
-![Docker Image Size](https://img.shields.io/docker/image-size/snowdreamtech/base/latest)
-![Docker Pulls](https://img.shields.io/docker/pulls/snowdreamtech/base)
-![Docker Stars](https://img.shields.io/docker/stars/snowdreamtech/base)
+![Docker Image Version](https://img.shields.io/docker/v/snowdreamtech/adminer)
+![Docker Image Size](https://img.shields.io/docker/image-size/snowdreamtech/adminer/latest)
+![Docker Pulls](https://img.shields.io/docker/pulls/snowdreamtech/adminer)
+![Docker Stars](https://img.shields.io/docker/stars/snowdreamtech/adminer)
 
 [English](README.md) | [简体中文](README_zh-CN.md)
 
-Docker base template providing standardized container foundations with flexible entrypoint systems, multi-architecture support, and consistent configuration patterns across Alpine, Debian, and Rocky Linux distributions.
+Docker images for [Adminer](https://www.adminer.org/) (formerly phpMinAdmin), a full-featured database management tool written in PHP. Supports MySQL, MariaDB, PostgreSQL, SQLite, MS SQL, Oracle, Elasticsearch, MongoDB, and more — all in a single PHP file.
 
 ## Overview
 
-The Docker base template serves as a foundational starting point for building containerized applications. It provides:
+This project provides production-ready Adminer Docker images based on `snowdreamtech/php` with Nginx, available in three distribution variants:
 
-- **Standardized Dockerfiles** with OCI annotations and best practices
-- **Flexible entrypoint system** supporting custom initialization scripts
-- **Consistent environment variable configuration** across all variants
-- **Multi-architecture support** for diverse hardware platforms
-- **User/group management** with PUID/PGID support for permission handling
-- **Three distribution variants**: Alpine (lightweight), Debian (default/widely-compatible), Rocky (enterprise)
+- **Alpine** — Lightweight, minimal image size
+- **Debian** — Default, widely-compatible
+- **Rocky** — Enterprise-focused, RHEL-compatible
 
 ## Quick Start
 
 ```bash
 # Pull and run the default Debian variant
-docker pull snowdreamtech/base:debian
-docker run -d --name=base -e TZ=Asia/Shanghai snowdreamtech/base:debian
+docker pull snowdreamtech/adminer:debian
+docker run -d --name=adminer -p 8080:80 snowdreamtech/adminer:debian
 
-# Or use docker compose
-docker compose up -d
+# Access Adminer at http://localhost:8080/adminer.php
 ```
 
 ## Distribution Variants
@@ -44,15 +40,16 @@ The recommended variant for most use cases, providing wide compatibility and ext
 
 ```bash
 docker run -d \
-  --name=base \
+  --name=adminer \
+  -p 8080:80 \
   -e TZ=Asia/Shanghai \
   --restart unless-stopped \
-  snowdreamtech/base:debian
+  snowdreamtech/adminer:debian
 ```
 
 **Supported Architectures**: amd64, arm32v7, arm64, ppc64le, riscv64, s390x
 
-**Base Image**: `snowdreamtech/debian:latest`
+**Base Image**: `snowdreamtech/php:8.4.27-nginx-debian`
 
 ### Alpine
 
@@ -60,15 +57,16 @@ Lightweight variant optimized for minimal image size and fast startup times.
 
 ```bash
 docker run -d \
-  --name=base \
+  --name=adminer \
+  -p 8080:80 \
   -e TZ=Asia/Shanghai \
   --restart unless-stopped \
-  snowdreamtech/base:alpine
+  snowdreamtech/adminer:alpine
 ```
 
 **Supported Architectures**: i386, amd64, arm32v6, arm32v7, arm64, ppc64le, riscv64, s390x
 
-**Base Image**: `snowdreamtech/alpine:latest`
+**Base Image**: `snowdreamtech/php:8.4.27-nginx-alpine`
 
 ### Rocky
 
@@ -76,15 +74,16 @@ Enterprise-focused variant based on Rocky Linux, ideal for production environmen
 
 ```bash
 docker run -d \
-  --name=base \
+  --name=adminer \
+  -p 8080:80 \
   -e TZ=Asia/Shanghai \
   --restart unless-stopped \
-  snowdreamtech/base:rocky
+  snowdreamtech/adminer:rocky
 ```
 
-**Supported Architectures**: i386, amd64, arm32v5, arm32v7, arm64, ppc64le, riscv64, s390x
+**Supported Architectures**: amd64, arm64, ppc64le, s390x
 
-**Base Image**: `snowdreamtech/rocky:latest`
+**Base Image**: `snowdreamtech/php:8.4.27-nginx-rocky`
 
 ## Build Instructions
 
@@ -92,13 +91,13 @@ docker run -d \
 
 ```bash
 # Build Debian variant
-docker build -t snowdreamtech/base:debian ./docker/debian/
+docker build -t snowdreamtech/adminer:debian ./docker/debian/
 
 # Build Alpine variant
-docker build -t snowdreamtech/base:alpine ./docker/alpine/
+docker build -t snowdreamtech/adminer:alpine ./docker/alpine/
 
 # Build Rocky variant
-docker build -t snowdreamtech/base:rocky ./docker/rocky/
+docker build -t snowdreamtech/adminer:rocky ./docker/rocky/
 ```
 
 ### Multi-Architecture Build
@@ -111,22 +110,22 @@ docker buildx create --use --name build --node build --driver-opt network=host
 
 # Build Debian for multiple architectures
 docker buildx build \
-  --platform=linux/386,linux/amd64,linux/arm/v5,linux/arm/v7,linux/arm64,linux/ppc64le,linux/riscv64,linux/s390x \
-  -t snowdreamtech/base:debian \
+  --platform=linux/amd64,linux/arm/v7,linux/arm64,linux/riscv64,linux/ppc64le,linux/s390x \
+  -t snowdreamtech/adminer:debian \
   ./docker/debian/ \
   --push
 
 # Build Alpine for multiple architectures
 docker buildx build \
   --platform=linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/riscv64,linux/s390x \
-  -t snowdreamtech/base:alpine \
+  -t snowdreamtech/adminer:alpine \
   ./docker/alpine/ \
   --push
 
 # Build Rocky for multiple architectures
 docker buildx build \
   --platform=linux/amd64,linux/arm64,linux/ppc64le,linux/s390x \
-  -t snowdreamtech/base:rocky \
+  -t snowdreamtech/adminer:rocky \
   ./docker/rocky/ \
   --push
 ```
@@ -135,51 +134,30 @@ docker buildx build \
 
 All variants support the following environment variables for runtime configuration:
 
-| Variable               | Default   | Description                                              |
-| ---------------------- | --------- | -------------------------------------------------------- |
-| `KEEPALIVE`            | `0`       | Keep container running (1=enabled, 0=disabled)           |
-| `CAP_NET_BIND_SERVICE` | `0`       | Enable binding to privileged ports (<1024)               |
-| `LANG`                 | `C.UTF-8` | Locale setting for UTF-8 character support               |
-| `UMASK`                | `022`     | Default file creation mask                               |
-| `DEBUG`                | `false`   | Enable debug output in entrypoint scripts                |
-| `PASSWORDLESS_SUDO`    | `false`   | Enable passwordless sudo for non-root users (true/false) |
-| `PGID`                 | `0`       | Primary group ID for custom user creation                |
-| `PUID`                 | `0`       | User ID for custom user creation                         |
-| `USER`                 | `root`    | Username for custom user creation                        |
-| `WORKDIR`              | `/root`   | Working directory path                                   |
-| `TZ`                   | -         | Timezone (e.g., `Asia/Shanghai`, `America/New_York`)     |
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `KEEPALIVE` | `0` | Keep container running (1=enabled, 0=disabled) |
+| `CAP_NET_BIND_SERVICE` | `0` | Enable binding to privileged ports (<1024) |
+| `LANG` | `C.UTF-8` | Locale setting for UTF-8 character support |
+| `UMASK` | `022` | Default file creation mask |
+| `DEBUG` | `false` | Enable debug output in entrypoint scripts |
+| `PGID` | `0` | Primary group ID for custom user creation |
+| `PUID` | `0` | User ID for custom user creation |
+| `USER` | `root` | Username for custom user creation |
+| `WORKDIR` | `/root` | Working directory path |
+| `TZ` | - | Timezone (e.g., `Asia/Shanghai`, `America/New_York`) |
+| `ADMINER_VERSION` | `6.2.0` | Adminer version |
+| `ADMINER_SQLITE_PASSWORD` | `` | SQLite password for passwordless login plugin |
+| `ADMINER_PATH` | `/var/www/html` | Path to Adminer web root |
+| `ADMINER_PLUGINS_PATH` | `/var/www/html/plugins` | Path to Adminer plugins |
+| `ADMINER_DESIGNS_PATH` | `/var/www/html/designs` | Path to Adminer designs/themes |
+| `ADMINER_DEFAULT_SERVER_MODE` | `true` | Enable default server mode presets |
 
 **Debian-specific**:
 
-| Variable          | Default          | Description                      |
-| ----------------- | ---------------- | -------------------------------- |
+| Variable | Default | Description |
+|----------|---------|-------------|
 | `DEBIAN_FRONTEND` | `noninteractive` | Debian package installation mode |
-
-### Custom User Creation
-
-Create a non-root user with specific UID/GID at build time:
-
-```bash
-docker build \
-  --build-arg PUID=1000 \
-  --build-arg PGID=1000 \
-  --build-arg USER=appuser \
-  -t snowdreamtech/base:debian-custom \
-  ./docker/debian/
-```
-
-Or at runtime (requires rebuilding the image):
-
-```bash
-docker run -d \
-  --name=base \
-  -e PUID=1000 \
-  -e PGID=1000 \
-  -e USER=appuser \
-  snowdreamtech/base:debian
-```
-
-**Note**: User creation only occurs when `PUID≠0`, `PGID≠0`, and `USER≠root`.
 
 ## Docker Compose Examples
 
@@ -187,28 +165,41 @@ docker run -d \
 
 ```yaml
 services:
-  base:
-    image: snowdreamtech/base:debian
-    container_name: base
+  adminer:
+    image: snowdreamtech/adminer:debian
+    container_name: adminer
+    ports:
+      - "8080:80"
     environment:
       - TZ=Asia/Shanghai
     restart: unless-stopped
 ```
 
-### Advanced Configuration
+### Advanced Configuration with Database
 
 ```yaml
 services:
-  base:
-    image: snowdreamtech/base:debian
-    container_name: base
+  adminer:
+    image: snowdreamtech/adminer:debian
+    container_name: adminer
+    ports:
+      - "8080:80"
     environment:
       - TZ=Asia/Shanghai
       - DEBUG=true
-      - KEEPALIVE=1
-    volumes:
-      - /path/to/data:/data
     restart: unless-stopped
+
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
 ```
 
 ## Semantic Versioning Tags
@@ -217,13 +208,13 @@ Images follow semantic versioning with the format: `{major}.{minor}.{patch}-{var
 
 Examples:
 
-- `snowdreamtech/base:<version>-debian`
-- `snowdreamtech/base:<version>-alpine`
-- `snowdreamtech/base:<version>-rocky`
+- `snowdreamtech/adminer:6.2.0-debian`
+- `snowdreamtech/adminer:6.2.0-alpine`
+- `snowdreamtech/adminer:6.2.0-rocky`
 
 This format allows:
 
-- **Full version pinning**: `<version>-debian` (exact version)
+- **Full version pinning**: `6.2.0-debian` (exact version)
 - **Variant latest tag**: `latest-debian` (tracks most recent release for Debian)
 - **Global latest tag**: `latest` (tracks most recent release, defaults to Debian)
 
@@ -231,17 +222,17 @@ This format allows:
 
 Each distribution variant supports multiple CPU architectures for deployment across diverse hardware platforms:
 
-| Variant    | Architectures                                                 |
-| ---------- | ------------------------------------------------------------- |
-| **Debian** | amd64, arm32v7, arm64, ppc64le, riscv64, s390x                |
+| Variant | Architectures |
+|---------|---------------|
+| **Debian** | amd64, arm32v7, arm64, ppc64le, riscv64, s390x |
 | **Alpine** | i386, amd64, arm32v6, arm32v7, arm64, ppc64le, riscv64, s390x |
-| **Rocky**  | amd64, arm64, ppc64le, s390x                                  |
+| **Rocky** | amd64, arm64, ppc64le, s390x |
 
 Docker automatically selects the appropriate architecture for your platform when pulling images.
 
 ## Entrypoint System
 
-The base template includes a flexible entrypoint system that executes custom initialization scripts before starting your application.
+The image includes a flexible entrypoint system that executes custom initialization scripts before starting your application.
 
 ### How It Works
 
@@ -250,100 +241,30 @@ The base template includes a flexible entrypoint system that executes custom ini
 3. Each script receives the container's command-line arguments
 4. If any script fails, the container stops (fail-fast behavior)
 
-### Adding Custom Initialization
-
-Create custom initialization scripts in your derived Dockerfile:
-
-```dockerfile
-FROM snowdreamtech/base:debian
-
-# Add your custom initialization script
-COPY my-init.sh /usr/local/bin/entrypoint.d/20-my-init.sh
-RUN chmod +x /usr/local/bin/entrypoint.d/20-my-init.sh
-
-# Your application setup
-COPY app /app
-CMD ["/app/start.sh"]
-```
-
 ### Debug Mode
 
 Enable debug output to troubleshoot entrypoint execution:
 
 ```bash
-docker run -e DEBUG=true snowdreamtech/base:debian
-```
-
-Output example:
-
-```
-→ [ENTRYPOINT] Executing all scripts in /usr/local/bin/entrypoint.d
-→ Running /usr/local/bin/entrypoint.d/10-base-init.sh
-→ [ENTRYPOINT] Done.
-```
-
-## Development
-
-### Prerequisites
-
-- Docker (>= 20.10) with Docker Buildx plugin
-- [UniRTM](https://github.com/snowdreamtech/UniRTM) for workspace quality guard and toolchain management
-
-### Quality & Verification
-
-```bash
-# Setup toolchain and verify environment
-unirtm run setup
-
-# Run comprehensive workspace quality check (formatters, linters, security)
-unirtm run verify
-
-# Run security audits (Zizmor, Gitleaks, OSV-Scanner, Trivy)
-unirtm run audit
-
-# Automatically fix linting and formatting issues where supported
-unirtm run fix
-```
-
-### Building Locally
-
-```bash
-# Build specific variant
-docker build -t base:debian ./docker/debian/
-docker build -t base:alpine ./docker/alpine/
-docker build -t base:rocky ./docker/rocky/
-```
-
-### Testing
-
-```bash
-# Test default configuration
-docker run --rm base:debian id
-
-# Test custom user creation
-docker build --build-arg PUID=1000 --build-arg PGID=1000 --build-arg USER=testuser -t base:debian-test ./docker/debian/
-docker run --rm base:debian-test id
-# Expected: uid=1000(testuser) gid=1000(testuser)
-
-# Test DEBUG mode
-docker run --rm -e DEBUG=true base:debian
+docker run -e DEBUG=true snowdreamtech/adminer:debian
 ```
 
 ## Reference
 
-1. [使用 buildx 构建多平台 Docker 镜像](https://icloudnative.io/posts/multiarch-docker-with-buildx/)
-2. [如何使用 docker buildx 构建跨平台 Go 镜像](https://waynerv.com/posts/building-multi-architecture-images-with-docker-buildx/#buildx-%E7%9A%84%E8%B7%A8%E5%B9%B3%E5%8F%B0%E6%9E%84%E5%BB%BA%E7%AD%96%E7%95%A5)
-3. [Building Multi-Arch Images for Arm and x86 with Docker Desktop](https://www.docker.com/blog/multi-arch-images/)
-4. [How to Rapidly Build Multi-Architecture Images with Buildx](https://www.docker.com/blog/how-to-rapidly-build-multi-architecture-images-with-buildx/)
-5. [Faster Multi-Platform Builds: Dockerfile Cross-Compilation Guide](https://www.docker.com/blog/faster-multi-platform-builds-dockerfile-cross-compilation-guide/)
-6. [docker/buildx](https://github.com/docker/buildx)
+1. [Adminer Official Website](https://www.adminer.org/)
+2. [Adminer GitHub Repository](https://github.com/vrana/adminer)
+3. [使用 buildx 构建多平台 Docker 镜像](https://icloudnative.io/posts/multiarch-docker-with-buildx/)
+4. [如何使用 docker buildx 构建跨平台 Go 镜像](https://waynerv.com/posts/building-multi-architecture-images-with-docker-buildx/#buildx-%E7%9A%84%E8%B7%A8%E5%B9%B3%E5%8F%B0%E6%9E%84%E5%BB%BA%E7%AD%96%E7%95%A5)
+5. [Building Multi-Arch Images for Arm and x86 with Docker Desktop](https://www.docker.com/blog/multi-arch-images/)
+6. [How to Rapidly Build Multi-Architecture Images with Buildx](https://www.docker.com/blog/how-to-rapidly-build-multi-architecture-images-with-buildx/)
+7. [docker/buildx](https://github.com/docker/buildx)
 
-## Contact (备注：base)
+## Contact (备注：adminer)
 
-- Email: <sn0wdr1am@qq.com>
-- QQ: 3217680847
-- QQ群: 949022145
-- WeChat/微信群: sn0wdr1am
+* Email: <sn0wdr1am@qq.com>
+* QQ: 3217680847
+* QQ群: 949022145
+* WeChat/微信群: sn0wdr1am
 
 ## License
 

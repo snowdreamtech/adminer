@@ -1,11 +1,11 @@
 # Base Image (Debian Variant)
-# Extends snowdreamtech/debian with additional tooling and configuration.
+# Extends snowdreamtech/php with additional tooling and configuration.
 
-FROM ghcr.io/snowdreamtech/debian:13.6.0
+FROM snowdreamtech/php:8.4.27-nginx-debian
 
 # Build-time Configuration
 # x-release-please-start-version
-ARG VERSION="13.6.0"
+ARG VERSION="6.2.0"
 # x-release-please-end
 
 ARG BUILDTIME \
@@ -20,21 +20,26 @@ ARG BUILDTIME \
     PGID=0 \
     PUID=0 \
     USER=root \
-    WORKDIR=/root
+    WORKDIR=/root \
+    ADMINER_SQLITE_PASSWORD="" \
+    ADMINER_PATH=/var/www/html \
+    ADMINER_PLUGINS_PATH=/var/www/html/plugins \
+    ADMINER_DESIGNS_PATH=/var/www/html/designs \
+    ADMINER_DEFAULT_SERVER_MODE=true
 
 # Standard OCI Metadata (https://github.com/opencontainers/image-spec)
 LABEL org.opencontainers.image.authors="Snowdream Tech" \
-    org.opencontainers.image.title="Base Image Based On Debian" \
-    org.opencontainers.image.description="Docker Images for Base on Debian. (amd64, arm32v7, arm64, ppc64le, riscv64, s390x)" \
-    org.opencontainers.image.documentation="https://hub.docker.com/r/snowdreamtech/base" \
-    org.opencontainers.image.base.name="snowdreamtech/base:debian" \
+    org.opencontainers.image.title="Adminer Image Based On Debian" \
+    org.opencontainers.image.description="Docker Images for Adminer on Debian. (amd64, arm32v7, arm64, ppc64le, riscv64, s390x)" \
+    org.opencontainers.image.documentation="https://hub.docker.com/r/snowdreamtech/adminer" \
+    org.opencontainers.image.base.name="snowdreamtech/php:8.4.27-nginx-debian" \
     org.opencontainers.image.licenses="MIT" \
-    org.opencontainers.image.source="https://github.com/snowdreamtech/base" \
+    org.opencontainers.image.source="https://github.com/snowdreamtech/adminer" \
     org.opencontainers.image.vendor="Snowdream Tech" \
     org.opencontainers.image.version="${VERSION}" \
     org.opencontainers.image.created="${BUILDTIME}" \
     org.opencontainers.image.revision="${REVISION}" \
-    org.opencontainers.image.url="https://github.com/snowdreamtech/base"
+    org.opencontainers.image.url="https://github.com/snowdreamtech/adminer"
 
 # Runtime Environment Configuration
 ENV DEBIAN_FRONTEND=${DEBIAN_FRONTEND} \
@@ -47,13 +52,26 @@ ENV DEBIAN_FRONTEND=${DEBIAN_FRONTEND} \
     PGID=${PGID} \
     PUID=${PUID} \
     USER=${USER} \
-    WORKDIR=${WORKDIR}
+    WORKDIR=${WORKDIR} \
+    ADMINER_VERSION=${VERSION} \
+    ADMINER_SQLITE_PASSWORD=${ADMINER_SQLITE_PASSWORD} \
+    ADMINER_PATH=${ADMINER_PATH} \
+    ADMINER_PLUGINS_PATH=${ADMINER_PLUGINS_PATH} \
+    ADMINER_DESIGNS_PATH=${ADMINER_DESIGNS_PATH} \
+    ADMINER_DEFAULT_SERVER_MODE=${ADMINER_DEFAULT_SERVER_MODE}
 
-# Additional tooling and configuration for Base image
+# Additional tooling and configuration for Adminer
 RUN set -eux \
     && DEBIAN_FRONTEND=noninteractive apt-get -qqy update \
     && DEBIAN_FRONTEND=noninteractive apt-get -qqy install --no-install-recommends \
-    vim \
+    vim curl tar \
+    && mkdir -p ${ADMINER_PATH} \
+    && curl -fsSL "https://github.com/vrana/adminer/releases/download/v${ADMINER_VERSION}/adminer-${ADMINER_VERSION}.php" -o ${ADMINER_PATH}/adminer.php \
+    && curl -fsSL "https://github.com/vrana/adminer/archive/refs/tags/v${ADMINER_VERSION}.tar.gz" -o adminer-src.tar.gz \
+    && tar -xzf adminer-src.tar.gz "adminer-${ADMINER_VERSION}/plugins" "adminer-${ADMINER_VERSION}/designs" \
+    && cp -r "adminer-${ADMINER_VERSION}/plugins" ${ADMINER_PATH}/ \
+    && cp -r "adminer-${ADMINER_VERSION}/designs" ${ADMINER_PATH}/ \
+    && rm -rf "adminer-${ADMINER_VERSION}" adminer-src.tar.gz \
     && DEBIAN_FRONTEND=noninteractive apt-get -qqy --purge autoremove \
     && DEBIAN_FRONTEND=noninteractive apt-get -qqy clean \
     && rm -rf /var/lib/apt/lists/* \
@@ -69,6 +87,7 @@ RUN chmod +x /usr/local/bin/entrypoint.d/*
 HEALTHCHECK NONE
 
 # Process Execution
+EXPOSE 80 443
 USER root
 WORKDIR /root
 ENTRYPOINT ["docker-entrypoint.sh"]

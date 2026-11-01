@@ -1,37 +1,149 @@
 # Changelog
 
-## [13.6.0](https://github.com/snowdreamtech/base/compare/debian-v13.6.0...debian-v13.6.0) (2026-10-28)
+## [6.0.2](https://github.com/snowdreamtech/adminer/compare/debian-v6.0.1...debian-v6.0.2) (2026-09-08)
 
 
 ### 🚀 Features
 
-* initial release of snowdreamtech base docker images powered by unirtm ([25f55c8](https://github.com/snowdreamtech/base/commit/25f55c84e8fba977d226739e9871d61e1428fdeb))
+* **release:** initialize VERSION ARG in Dockerfiles for Release-Please change tracking ([1e1dd32](https://github.com/snowdreamtech/adminer/commit/1e1dd326ae9ce0c27a3c15d611443876282ae218))
 
-## [13.5.0](https://github.com/snowdreamtech/base/compare/debian-v13.5.0...debian-v13.5.0) (2026-07-03)
+## [6.0.1](https://github.com/snowdreamtech/adminer/compare/debian-v6.0.0...debian-v6.0.1) (2026-08-15)
 
 
 ### ♻️ Miscellaneous Chores
 
-* add 0-git-keep.sh to prevent empty entrypoint.d directories ([ce77247](https://github.com/snowdreamtech/base/commit/ce77247762becc1edf85ec7b57747d3f3127044a))
+* upgrade Adminer version from 6.0.0 to 6.0.1 ([2075239](https://github.com/snowdreamtech/adminer/commit/20752399d590708898c38929520a666d35cfbb80))
 
-## [13.4.0](https://github.com/snowdreamtech/base/compare/debian-v13.4.0...debian-v13.4.0) (2026-04-29)
+## [6.0.0](https://github.com/snowdreamtech/adminer/compare/debian-v5.5.1...debian-v6.0.0) (2026-08-09)
 
 
-### 🛠 Refactoring
+### ♻️ Miscellaneous Chores
 
-* **docker:** align Dockerfiles with base image structure ([232574f](https://github.com/snowdreamtech/base/commit/232574fed8418f8c7f257d001e951361dfa467a0))
-* remove redundant docker-entrypoint.sh files ([87c576b](https://github.com/snowdreamtech/base/commit/87c576b27731ad11c5bc0ebc661e07c5a09ff1c1))
-* reorganize distribution variants into docker directory ([67a8c91](https://github.com/snowdreamtech/base/commit/67a8c911e21801bf12b3e83d02e22f3b3f59a2ba))
+* apply lint-all auto-fixes ([3258857](https://github.com/snowdreamtech/adminer/commit/3258857d7ce59341ccc09a96a168ec57fb057347))
+* merge upstream/dev into dev ([a9c3e08](https://github.com/snowdreamtech/adminer/commit/a9c3e088e50f3d26c72a292a69a1376360051bf4))
+* release main ([c9db13e](https://github.com/snowdreamtech/adminer/commit/c9db13ecc5033081c703e996d33c7503860ec15e))
+* **release:** deduplicate CHANGELOG headers ([a186680](https://github.com/snowdreamtech/adminer/commit/a186680625ac23b3ebbdf41e75a7370f38e03d22))
+* sync debian build matrix and documentation with upstream ([0d6e613](https://github.com/snowdreamtech/adminer/commit/0d6e6132c84a368f5b64b9144d9c7d3b7292d746))
+
+## [5.5.1](https://github.com/snowdreamtech/adminer/compare/debian-v5.5.0...debian-v5.5.1) (2026-08-06)
+
+
+### ♻️ Miscellaneous Chores
+
+* bump Adminer version to 5.5.1 ([e489f89](https://github.com/snowdreamtech/adminer/commit/e489f8915f96d034b8f0431f35c972fc87dfcb8d))
+
+## [5.5.0](https://github.com/snowdreamtech/adminer/compare/debian-v5.4.4...debian-v5.5.0) (2026-08-06)
+
+
+### ♻️ Miscellaneous Chores
+
+* upgrade Adminer version to 5.5.0 ([257d5ab](https://github.com/snowdreamtech/adminer/commit/257d5ab20bd3a3d1482668eb9bb24629fb583664))
+
+## [5.4.4](https://github.com/snowdreamtech/adminer/compare/debian-v5.4.3...debian-v5.4.4) (2026-08-06)
+
+
+### ♻️ Miscellaneous Chores
+
+* bump Adminer version to 5.4.4 ([9af6c61](https://github.com/snowdreamtech/adminer/commit/9af6c6194a958d50bf2090dd8c750fcf425c6989))
+
+## [5.4.3](https://github.com/snowdreamtech/adminer/compare/debian-v5.4.2...debian-v5.4.3) (2026-08-06)
+
+
+### 🚀 Features
+
+* implement comprehensive pre-commit hooks and update release-please configuration and CI workflows ([757ec19](https://github.com/snowdreamtech/adminer/commit/757ec1910def8dcb99b36c1f3d47c8d5d947de1f))
+
+
+### 🐛 Bug Fixes
+
+* remove static version defaults from OCI image labels to use variable injection exclusively ([da5645a](https://github.com/snowdreamtech/adminer/commit/da5645ad4d48467290235abbbd9f31ba70bf690f))
+* use ghcr.io for base images to avoid rate limits ([9f1d73a](https://github.com/snowdreamtech/adminer/commit/9f1d73a75a61f2f368f5572c4bd28f4c92ef8fd5))
+
+
+### ♻️ Miscellaneous Chores
+
+* add 0-git-keep.sh to prevent empty entrypoint.d directories ([ce77247](https://github.com/snowdreamtech/adminer/commit/ce77247762becc1edf85ec7b57747d3f3127044a))
+* bump Adminer version to 5.4.3 ([7d48aab](https://github.com/snowdreamtech/adminer/commit/7d48aab18b8d088a9aee6c3f8df78d82dc92179b))
+* release main ([5a92edb](https://github.com/snowdreamtech/adminer/commit/5a92edb4ba76b04ee6de7369e9471f785849a7ae))
+* release main ([4011a21](https://github.com/snowdreamtech/adminer/commit/4011a21a23395acc9545168c95ca0ec5c867e7d3))
+* release main ([d52be5c](https://github.com/snowdreamtech/adminer/commit/d52be5cf0c5cff45f7f72e973d62c94b48855e1b))
+* release main ([f66597a](https://github.com/snowdreamtech/adminer/commit/f66597a5feae95e8853f4cc730c81e93e172f6ca))
+* release main ([b3a5cc9](https://github.com/snowdreamtech/adminer/commit/b3a5cc9ef0a64a7bc04ed7c2acf0cca5327c5c26))
+* **release:** deduplicate CHANGELOG headers ([4f07b71](https://github.com/snowdreamtech/adminer/commit/4f07b71194f58ba214f1fb60ce0dc56d71c499e2))
+* **release:** deduplicate CHANGELOG headers ([3068d88](https://github.com/snowdreamtech/adminer/commit/3068d883bc6167773d046d3b2b0e4c479e4fee39))
+* **release:** deduplicate CHANGELOG headers ([82be3d5](https://github.com/snowdreamtech/adminer/commit/82be3d5576b65b7f69b1a9afb8604f2c8f0e47f7))
+* **speckit:** manual auto-commit trigger ([5f8a5a9](https://github.com/snowdreamtech/adminer/commit/5f8a5a9cba5d6bd42a65eaabfecd6e18b01aeeb0))
+* update debian base image to 13.6.0 ([5f885d5](https://github.com/snowdreamtech/adminer/commit/5f885d5a771f06d449533f2f3c619d27444822f5))
+
+## [5.4.2](https://github.com/snowdreamtech/adminer/compare/debian-v5.4.2...debian-v5.4.2) (2026-06-27)
+
+
+### 🚀 Features
+
+* auto-load all adminer plugins dynamically via index.php ([a1ac2c5](https://github.com/snowdreamtech/adminer/commit/a1ac2c5fa426b305c6d68dfbeb3f8ebf9c6ffc41))
+* Declare ADMINER_DEFAULT_SERVER_MODE in Dockerfiles ([d85418c](https://github.com/snowdreamtech/adminer/commit/d85418cfdcd065d313eeca0e4ef08db5c1d2e39c))
+* Enable AdminerLoginServers plugin to avoid manual server input ([c718887](https://github.com/snowdreamtech/adminer/commit/c7188877221ceb73d677001ae075f25f08921120))
+* **plugins:** add MongoDB driver support to login servers ([50f779a](https://github.com/snowdreamtech/adminer/commit/50f779a9fbc5ffcb6c38750ca8fac6adbd6b624e))
+* restore commented AdminerLoginServers configuration example ([ff568e6](https://github.com/snowdreamtech/adminer/commit/ff568e637a7acc537426967b45b2a7ede5e0cda9))
+* Support pure-PHP drivers (ClickHouse, Elasticsearch, SimpleDB, IGDB) out of the box ([e3a5a3e](https://github.com/snowdreamtech/adminer/commit/e3a5a3e7dc391de6553e1cfbbe0a3a505ee3bff5))
+* Support toggling login server mode via ADMINER_DEFAULT_SERVER_MODE env var ([6e5287d](https://github.com/snowdreamtech/adminer/commit/6e5287d74a895873cd1b17a7fc3e7c6e44d5c039))
+
+
+### 🐛 Bug Fixes
+
+* **docker:** fix Adminer plugin instantiation syntax and include plugin.php ([912a5dd](https://github.com/snowdreamtech/adminer/commit/912a5dddbd5b293cc82b514739a29ecd70a361ec))
+* Generate relative URLs for adminer designs ([7848a31](https://github.com/snowdreamtech/adminer/commit/7848a314c5c3a26e3ea9fa4667d8f2bafac50f32))
+* Only auto-load specific plugins instead of all plugins blindly ([c9ddb31](https://github.com/snowdreamtech/adminer/commit/c9ddb3186f1967fd603082d0f6dc1a9b77dea777))
+* **plugins:** fix Adminer 5.x theme switching and plugin loading ([7015e42](https://github.com/snowdreamtech/adminer/commit/7015e42bce355b1da2b91096504989c78f6ba535))
+* Update plugin loading for Adminer 5.x compatibility ([0d448b7](https://github.com/snowdreamtech/adminer/commit/0d448b79fbad0de0d6d10a9004b28e564343540e))
+
+
+### 🐛 Bug Fixes
+
+* **docker:** align Dockerfiles with base image structure ([232574f](https://github.com/snowdreamtech/adminer/commit/232574fed8418f8c7f257d001e951361dfa467a0))
+* migrate Dockerfiles to dev skeleton and update adminer versions ([5a27404](https://github.com/snowdreamtech/adminer/commit/5a274049c33b6571556f1e681244c128cd64551f))
+* remove redundant docker-entrypoint.sh files ([87c576b](https://github.com/snowdreamtech/adminer/commit/87c576b27731ad11c5bc0ebc661e07c5a09ff1c1))
+* reorganize distribution variants into docker directory ([67a8c91](https://github.com/snowdreamtech/adminer/commit/67a8c911e21801bf12b3e83d02e22f3b3f59a2ba))
 
 
 ### 📖 Documentation
 
-* add detailed comments to entrypoint initialization scripts ([f42cbaa](https://github.com/snowdreamtech/base/commit/f42cbaab6edfbc5c38c2a636dfd8651fea900940))
+* add detailed comments to entrypoint initialization scripts ([f42cbaa](https://github.com/snowdreamtech/adminer/commit/f42cbaab6edfbc5c38c2a636dfd8651fea900940))
 
 
 ### ♻️ Miscellaneous Chores
 
-* **main:** release 0.14.0 ([043d2a4](https://github.com/snowdreamtech/base/commit/043d2a4202505e42c645e899c6731f5fb8f52c8e))
-* release 0.6.1 ([f6fc042](https://github.com/snowdreamtech/base/commit/f6fc042cad7d1c4991a20657655bc4b6b339d0d9))
-* release 0.7.1 ([5535492](https://github.com/snowdreamtech/base/commit/5535492160f3525dff06ff9f0c6d78147467bed3))
-* **release:** v0.4.0 - Fix Dependabot docker-compose detection ([e91f7d8](https://github.com/snowdreamtech/base/commit/e91f7d882f3c7b23260f4da02f0e5e53d6399968))
+* clear previous changelog entries ([4130cb5](https://github.com/snowdreamtech/adminer/commit/4130cb5fe99115a60c1af64ce75a078962f41fc8))
+* **deps:** bump base images to alpine 3.24.0, debian 13.5.0, rocky 10.2.0 ([1688969](https://github.com/snowdreamtech/adminer/commit/168896956d2f4c7f91309c4c98ffef36ca7e8546))
+* release main ([deb8454](https://github.com/snowdreamtech/adminer/commit/deb8454df7518d56939ab3851245a4cd7b03d709))
+* release main ([d87cb81](https://github.com/snowdreamtech/adminer/commit/d87cb815685ad9b5b43d4b9a195c68dee2fd8065))
+* release main ([78328d2](https://github.com/snowdreamtech/adminer/commit/78328d20bd3697d48ea90aee8d0eaa6af4ccc09c))
+* release main ([b720ad5](https://github.com/snowdreamtech/adminer/commit/b720ad57dd1691d8ae07dcac7d46d0bd257af3a0))
+* release main ([32dd84d](https://github.com/snowdreamtech/adminer/commit/32dd84de4be973395d0867b5d527d528948a35df))
+* release main ([725c69f](https://github.com/snowdreamtech/adminer/commit/725c69fdcc222b5b83d0690629ce213a68c586ab))
+* release main ([070b694](https://github.com/snowdreamtech/adminer/commit/070b694a702763b60fc6b057a81418320418cafa))
+* release main ([36d1211](https://github.com/snowdreamtech/adminer/commit/36d1211036847a8c6aaa01a21a1c695a47b71d45))
+* release main ([9ad4f94](https://github.com/snowdreamtech/adminer/commit/9ad4f9490832efdc310f2ebbd8c77f3404daf07f))
+* release main ([b0684a3](https://github.com/snowdreamtech/adminer/commit/b0684a32a652e83506451e6056168cfec8b9142c))
+* release main ([495e18a](https://github.com/snowdreamtech/adminer/commit/495e18a4babcb06a12c2f5aec9ea571d97cb32e3))
+* release main ([d4a3a34](https://github.com/snowdreamtech/adminer/commit/d4a3a34b00a6b9f381cd5d556749c257516b2f08))
+* release main ([28d9426](https://github.com/snowdreamtech/adminer/commit/28d94263f4374017274707faef7183917b689be9))
+* **release:** deduplicate CHANGELOG headers ([d47fb44](https://github.com/snowdreamtech/adminer/commit/d47fb44cb105b368722d7d0e210a27b525f82d87))
+* **release:** deduplicate CHANGELOG headers ([e795177](https://github.com/snowdreamtech/adminer/commit/e79517795d98b9f8292ef956586a6dc03932d03c))
+* **release:** deduplicate CHANGELOG headers ([27919e4](https://github.com/snowdreamtech/adminer/commit/27919e4baf4aab5b2a2bf32a7d437b05a717c11b))
+* **release:** deduplicate CHANGELOG headers ([438190d](https://github.com/snowdreamtech/adminer/commit/438190d297c151c75eca4912fdc22c285d5ec1ea))
+* **release:** deduplicate CHANGELOG headers ([256f043](https://github.com/snowdreamtech/adminer/commit/256f04311b2344f2648ca5bcf407146f8c690258))
+* **release:** deduplicate CHANGELOG headers ([d263aae](https://github.com/snowdreamtech/adminer/commit/d263aae7b223103a01dd0e114430381c5d863dd7))
+* **release:** deduplicate CHANGELOG headers ([133954e](https://github.com/snowdreamtech/adminer/commit/133954e95cfae85cbba2fb9c1ac5acbc677ca39d))
+* **release:** deduplicate CHANGELOG headers ([1d82410](https://github.com/snowdreamtech/adminer/commit/1d82410d6038be22d7741f1519826f30023b0f3e))
+* **release:** deduplicate CHANGELOG headers ([5e1a539](https://github.com/snowdreamtech/adminer/commit/5e1a5390319933b48d20ad993714587d826c0aa7))
+* **release:** implement automatic changelog deduplication step ([282c220](https://github.com/snowdreamtech/adminer/commit/282c22081e1ad7a1a010a7f297d20bc7c9b416a7))
+* remove 10-base-init.sh scripts as they are no longer needed ([08e3432](https://github.com/snowdreamtech/adminer/commit/08e34326826804315be7af1ef6c2f8dd847c1307))
+
+<!-- DO NOT EDIT MANUALLY - This file is managed by automated professional tools -->
+## Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).

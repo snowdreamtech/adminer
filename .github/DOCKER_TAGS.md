@@ -1,22 +1,22 @@
 # Docker Image Tags Reference
 
-This document describes the Docker image tagging strategy for the base template project.
+This document describes the Docker image tagging strategy for the Adminer project.
 
 ## Tag Naming Convention
 
-All images use the format: `snowdreamtech/base:TAG`
+All images use the format: `snowdreamtech/adminer:TAG`
 
 Where `TAG` follows these patterns:
 
-- **Variant-specific tags**: `TAG-variant` (e.g., `nightly-alpine`, `3.23.4-alpine`)
-- **Default tags** (Debian only): `TAG` (e.g., `nightly`, `latest`, `13.4.0`)
+- **Variant-specific tags**: `TAG-variant` (e.g., `nightly-alpine`, `6.2.0-alpine`)
+- **Default tags** (Debian only): `TAG` (e.g., `nightly`, `latest`, `6.2.0`)
 
 ## Supported Registries
 
-All tags are pushed to three registries:
+All tags are pushed to two registries:
 
-- **DockerHub**: `snowdreamtech/base:TAG`
-- **GitHub Container Registry**: `ghcr.io/snowdreamtech/base:TAG`
+- **GitHub Container Registry**: `ghcr.io/snowdreamtech/adminer:TAG`
+- **DockerHub**: `snowdreamtech/adminer:TAG`
 
 ## Tag Scenarios
 
@@ -31,10 +31,10 @@ git push origin dev
 **Generated tags:**
 
 ```
-snowdreamtech/base:dev-alpine
-snowdreamtech/base:dev-debian
-snowdreamtech/base:dev              # ← Debian (default)
-snowdreamtech/base:dev-rocky
+snowdreamtech/adminer:dev-alpine
+snowdreamtech/adminer:dev-debian
+snowdreamtech/adminer:dev              # ← Debian (default)
+snowdreamtech/adminer:dev-rocky
 ```
 
 #### Push to `main` branch
@@ -46,244 +46,73 @@ git push origin main
 **Generated tags:**
 
 ```
-snowdreamtech/base:main-alpine
-snowdreamtech/base:latest-alpine
-snowdreamtech/base:main-debian
-snowdreamtech/base:latest-debian
-snowdreamtech/base:main             # ← Debian (default)
-snowdreamtech/base:latest           # ← Debian (default)
-snowdreamtech/base:main-rocky
-snowdreamtech/base:latest-rocky
+snowdreamtech/adminer:main-alpine
+snowdreamtech/adminer:latest-alpine
+snowdreamtech/adminer:main-debian
+snowdreamtech/adminer:latest-debian
+snowdreamtech/adminer:main             # ← Debian (default)
+snowdreamtech/adminer:latest           # ← Debian (default)
+snowdreamtech/adminer:main-rocky
+snowdreamtech/adminer:latest-rocky
 ```
 
----
+### 2. Scheduled Nightly Builds
 
-### 2. Release Tags (Semantic Versioning)
-
-#### Alpine Release
-
-```bash
-git tag alpine-v3.23.4
-git push origin alpine-v3.23.4
-```
+Runs daily at 17:00 UTC.
 
 **Generated tags:**
 
 ```
-snowdreamtech/base:3.23.4-alpine
-snowdreamtech/base:latest-alpine
+# Current date (e.g., 20260408)
+snowdreamtech/adminer:20260408-alpine
+snowdreamtech/adminer:20260408-debian
+snowdreamtech/adminer:20260408         # ← Debian (default)
+snowdreamtech/adminer:20260408-rocky
+
+# Nightly moving tag
+snowdreamtech/adminer:nightly-alpine
+snowdreamtech/adminer:nightly-debian
+snowdreamtech/adminer:nightly          # ← Debian (default)
+snowdreamtech/adminer:nightly-rocky
 ```
 
-#### Debian Release
+### 3. Release Please Tag Builds
 
-```bash
-git tag debian-v13.4.0
-git push origin debian-v13.4.0
-```
+When Release Please creates a release tag:
+
+- Format: `variant-vx.y.z` (e.g., `alpine-v6.2.0`, `debian-v6.2.0`, `rocky-v6.2.0`)
 
 **Generated tags:**
 
 ```
-snowdreamtech/base:13.4.0-debian
-snowdreamtech/base:latest-debian
-snowdreamtech/base:13.4.0           # ← Debian (default)
-snowdreamtech/base:latest           # ← Debian (default)
+# For tag: alpine-v6.2.0
+snowdreamtech/adminer:6.2.0-alpine
+snowdreamtech/adminer:latest-alpine
+
+# For tag: debian-v6.2.0 (default variant)
+snowdreamtech/adminer:6.2.0-debian
+snowdreamtech/adminer:latest-debian
+snowdreamtech/adminer:6.2.0            # ← Debian (default)
+snowdreamtech/adminer:latest           # ← Debian (default)
+
+# For tag: rocky-v6.2.0
+snowdreamtech/adminer:6.2.0-rocky
+snowdreamtech/adminer:latest-rocky
 ```
 
-#### Rocky Release
+## Summary Table
 
-```bash
-git tag rocky-v10.1.0
-git push origin rocky-v10.1.0
-```
-
-**Generated tags:**
-
-```
-snowdreamtech/base:10.1.0-rocky
-snowdreamtech/base:latest-rocky
-```
-
----
-
-### 3. Nightly Builds (Scheduled)
-
-**Trigger:** Automatically every day at 17:00 UTC
-
-**Generated tags:**
-
-```
-# Alpine
-snowdreamtech/base:nightly-alpine
-snowdreamtech/base:20260427-alpine
-
-# Debian (with default tags)
-snowdreamtech/base:nightly-debian
-snowdreamtech/base:20260427-debian
-snowdreamtech/base:nightly          # ← Debian (default)
-snowdreamtech/base:20260427         # ← Debian (default)
-
-# Rocky
-snowdreamtech/base:nightly-rocky
-snowdreamtech/base:20260427-rocky
-```
-
----
-
-## Tag Priority
-
-Tags are generated with the following priority (higher number = higher priority):
-
-| Priority | Type | Example Tags | Trigger |
-|----------|------|--------------|---------|
-| 1000 | Nightly | `nightly`, `nightly-alpine` | Schedule |
-| 900 | Date | `20260427`, `20260427-alpine` | Schedule |
-| 800 | Version | `3.23.4-alpine`, `13.4.0` | Tag push |
-| 600 | Branch | `dev-alpine`, `main-debian` | Branch push |
-| 200 | Latest | `latest`, `latest-alpine` | Main/Tag |
-
----
-
-## Default Variant (Debian)
-
-Debian is designated as the **default variant** (`is_latest: true`), which means:
-
-✅ **Debian gets BOTH suffixed AND unsuffixed tags:**
-
-```
-snowdreamtech/base:nightly-debian   # Variant-specific
-snowdreamtech/base:nightly          # Default (no suffix)
-
-snowdreamtech/base:13.4.0-debian    # Variant-specific
-snowdreamtech/base:13.4.0           # Default (no suffix)
-
-snowdreamtech/base:latest-debian    # Variant-specific
-snowdreamtech/base:latest           # Default (no suffix)
-```
-
-❌ **Alpine and Rocky get ONLY suffixed tags:**
-
-```
-snowdreamtech/base:nightly-alpine   # Variant-specific only
-snowdreamtech/base:nightly-rocky    # Variant-specific only
-```
-
----
-
-## Usage Examples
-
-### Pull the latest Debian image (default)
-
-```bash
-docker pull snowdreamtech/base:latest
-# or
-docker pull snowdreamtech/base:latest-debian
-```
-
-### Pull the latest Alpine image
-
-```bash
-docker pull snowdreamtech/base:latest-alpine
-```
-
-### Pull the latest Rocky image
-
-```bash
-docker pull snowdreamtech/base:latest-rocky
-```
-
-### Pull a specific version
-
-```bash
-# Alpine 3.23.4
-docker pull snowdreamtech/base:3.23.4-alpine
-
-# Debian 13.4.0 (two ways)
-docker pull snowdreamtech/base:13.4.0-debian
-docker pull snowdreamtech/base:13.4.0
-
-# Rocky 10.1.0
-docker pull snowdreamtech/base:10.1.0-rocky
-```
-
-### Pull nightly builds
-
-```bash
-# Alpine nightly
-docker pull snowdreamtech/base:nightly-alpine
-
-# Debian nightly (two ways)
-docker pull snowdreamtech/base:nightly-debian
-docker pull snowdreamtech/base:nightly
-
-# Rocky nightly
-docker pull snowdreamtech/base:nightly-rocky
-```
-
----
-
-## Tag Lifecycle
-
-### Development Flow
-
-```
-1. Push to dev → base:dev-alpine, base:dev-debian, base:dev, base:dev-rocky
-2. Push to main → base:main-alpine, base:latest-alpine, base:main-debian, base:latest-debian, base:main, base:latest, base:main-rocky, base:latest-rocky
-3. Create tag → base:VERSION-variant, base:latest-variant (+ unsuffixed for Debian)
-```
-
-### Release Flow (with Release Please)
-
-```
-1. Merge PR to main → Release Please creates release PR
-2. Merge release PR → Release Please creates tags (alpine-vX.Y.Z, debian-vX.Y.Z, rocky-vX.Y.Z)
-3. Tag push triggers build → Images published with version tags
-```
-
----
-
-## Matrix Configuration
-
-The workflow uses a matrix strategy with three variants:
-
-```yaml
-matrix:
-  include:
-    - variant: alpine
-      version: "3.23.4"
-      is_latest: false
-
-    - variant: debian
-      version: "13.4.0"
-      is_latest: true    # ← Default variant
-
-    - variant: rocky
-      version: "10.1.0"
-      is_latest: false
-```
-
-Only the variant with `is_latest: true` receives unsuffixed tags.
-
----
-
-## Metadata Action Configuration
-
-The key configuration that enables this tagging strategy:
-
-```yaml
-images: |
-  name=snowdreamtech/base,enable=true
-  name=ghcr.io/snowdreamtech/base,enable=true
-flavor: |
-  latest=false
-  prefix=
-  suffix=-${{ matrix.variant }}  # ← Adds variant suffix to all tags
-```
-
-For Debian (is_latest), additional rules generate unsuffixed tags:
-
-```yaml
-type=raw,enable=${{ matrix.is_latest }},priority=1000,prefix=,suffix=,pattern=nightly
-```
-
-This creates both `nightly-debian` (from flavor suffix) and `nightly` (from this rule).
+| Event | Variant | Generated Tags |
+|-------|---------|----------------|
+| Push `dev` | Alpine | `dev-alpine` |
+| Push `dev` | Debian | `dev-debian`, `dev` |
+| Push `dev` | Rocky | `dev-rocky` |
+| Push `main` | Alpine | `main-alpine`, `latest-alpine` |
+| Push `main` | Debian | `main-debian`, `latest-debian`, `main`, `latest` |
+| Push `main` | Rocky | `main-rocky`, `latest-rocky` |
+| Nightly | Alpine | `YYYYMMDD-alpine`, `nightly-alpine` |
+| Nightly | Debian | `YYYYMMDD-debian`, `nightly-debian`, `YYYYMMDD`, `nightly` |
+| Nightly | Rocky | `YYYYMMDD-rocky`, `nightly-rocky` |
+| Tag `alpine-v6.2.0` | Alpine | `6.2.0-alpine`, `latest-alpine` |
+| Tag `debian-v6.2.0` | Debian | `6.2.0-debian`, `latest-debian`, `6.2.0`, `latest` |
+| Tag `rocky-v6.2.0` | Rocky | `6.2.0-rocky`, `latest-rocky` |
