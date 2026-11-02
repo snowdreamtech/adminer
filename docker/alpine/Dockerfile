@@ -1,7 +1,7 @@
 # Base Image (Alpine Variant)
 # Extends snowdreamtech/alpine with additional tooling and configuration.
 
-FROM ghcr.io/snowdreamtech/alpine:3.24.1
+FROM ghcr.io/snowdreamtech/alpine:3.24.3
 
 # Build-time Configuration
 # x-release-please-start-version
