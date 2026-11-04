@@ -521,15 +521,15 @@ jobs:
           image-ref: ${{ steps.trivy-image.outputs.tag }}
           format: "sarif"
           output: "trivy-image-${{ matrix.variant }}.sarif"
-          severity: "CRITICAL,HIGH,MEDIUM,LOW"
+          severity: "CRITICAL,HIGH"
           ignore-unfixed: true
-          exit-code: "0"
+          exit-code: "1"
           skip-dirs: "/tmp,/var/tmp,/var/cache"
           skip-files: "/usr/local/bin/docker-entrypoint.sh"
 
       - name: "📊 Parse Trivy Results"
         id: trivy-summary
-        if: steps.variant-filter.outputs.skip != 'true' && steps.build.conclusion == 'success' && steps.trivy.outcome == 'success'
+        if: steps.variant-filter.outputs.skip != 'true' && steps.build.conclusion == 'success' && steps.trivy.conclusion == 'success'
         continue-on-error: true
         run: |
           if [ -f "trivy-image-${{ matrix.variant }}.sarif" ]; then
@@ -552,7 +552,7 @@ jobs:
           fi
 
       - name: "📤 Upload Image Security Scan (SARIF)"
-        if: steps.variant-filter.outputs.skip != 'true' && steps.build.conclusion == 'success' && steps.trivy.outcome == 'success'
+        if: steps.variant-filter.outputs.skip != 'true' && steps.build.conclusion == 'success' && steps.trivy.conclusion == 'success'
         continue-on-error: true
         uses: github/codeql-action/upload-sarif@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1
         with:
