@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.24.3](https://github.com/snowdreamtech/base/compare/alpine-v3.24.1...alpine-v3.24.3) (2026-11-05)
+
+
+### 🚀 Features
+
+* **deps:** bump base images to alpine 3.24.3 and debian 13.7.0 ([46281af](https://github.com/snowdreamtech/base/commit/46281af1f173cfb14b843fa6796617448663a82f))
+
 ## [3.24.1](https://github.com/snowdreamtech/base/compare/alpine-v3.24.1...alpine-v3.24.1) (2026-11-05)
 
 
