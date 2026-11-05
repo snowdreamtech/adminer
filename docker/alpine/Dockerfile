@@ -5,7 +5,7 @@ FROM ghcr.io/snowdreamtech/alpine:3.24.3
 
 # Build-time Configuration
 # x-release-please-start-version
-ARG VERSION="3.24.1"
+ARG VERSION="3.24.3"
 # x-release-please-end
 
 ARG BUILDTIME \

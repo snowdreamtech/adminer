@@ -5,7 +5,7 @@ FROM ghcr.io/snowdreamtech/debian:13.7.0
 
 # Build-time Configuration
 # x-release-please-start-version
-ARG VERSION="13.6.0"
+ARG VERSION="13.7.0"
 # x-release-please-end
 
 ARG BUILDTIME \
