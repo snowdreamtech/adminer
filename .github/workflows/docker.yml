@@ -41,9 +41,9 @@ name: "🐳 Docker Multi-Platform Build"
       - "debian-*"
       - "rocky-*"
 
-  schedule:
-    # Automatically run every day at 17:00 UTC
-    - cron: "0 17 * * *"
+  # schedule:
+  #   # Automatically run every day at 17:00 UTC
+  #   - cron: "0 17 * * *"
   workflow_dispatch:
     inputs:
       variant:
