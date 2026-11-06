@@ -19,12 +19,18 @@ enabled = true
 [tasks]
 [tasks.audit]
 description = "Run comprehensive security audit sequentially"
-depends = ["audit:gitleaks", "audit:zizmor", "audit:osv", "audit:trivy"]
+depends = [
+  "audit:gitleaks",
+  "audit:zizmor",
+  "audit:osv",
+  "audit:npm",
+  "audit:trivy",
+]
 output = "interleaved"
 
 [tasks."audit:fix"]
 description = "Auto-fix security flaws and dependency vulnerabilities where supported"
-depends = ["audit:zizmor"]
+depends = ["audit:zizmor", "audit:npm"]
 output = "interleaved"
 env = { UNIRTM_FIX = "1" }
 
@@ -78,6 +84,20 @@ exit 1
 '''
 output = "interleaved"
 
+[tasks."audit:npm"]
+description = "Node.js dependency audit"
+run = '''
+if [ -f "package.json" ]; then
+    if [ "$UNIRTM_FIX" = "1" ]; then
+        unirtm exec -- npm audit fix --audit-level=high --registry=https://registry.npmjs.org
+    else
+        unirtm exec -- npm audit --audit-level=high --registry=https://registry.npmjs.org
+    fi
+else
+    echo "↷  Skipped (no package.json)"
+fi
+'''
+output = "interleaved"
 [tasks."audit:trivy"]
 description = "Generate and scan SBOM using Trivy"
 run = '''
