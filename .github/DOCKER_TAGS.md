@@ -8,8 +8,8 @@ All images use the format: `snowdreamtech/adminer:TAG`
 
 Where `TAG` follows these patterns:
 
-- **Variant-specific tags**: `TAG-variant` (e.g., `nightly-alpine`, `6.2.0-alpine`)
-- **Default tags** (Debian only): `TAG` (e.g., `nightly`, `latest`, `6.2.0`)
+- **Variant-specific tags**: `TAG-variant` (e.g., `nightly-alpine`, `6.3.0-alpine`)
+- **Default tags** (Debian only): `TAG` (e.g., `nightly`, `latest`, `6.3.0`)
 
 ## Supported Registries
 
@@ -80,23 +80,23 @@ snowdreamtech/adminer:nightly-rocky
 
 When Release Please creates a release tag:
 
-- Format: `variant-vx.y.z` (e.g., `alpine-v6.2.0`, `debian-v6.2.0`, `rocky-v6.2.0`)
+- Format: `variant-vx.y.z` (e.g., `alpine-v6.3.0`, `debian-v6.3.0`, `rocky-v6.3.0`)
 
 **Generated tags:**
 
 ```
-# For tag: alpine-v6.2.0
-snowdreamtech/adminer:6.2.0-alpine
+# For tag: alpine-v6.3.0
+snowdreamtech/adminer:6.3.0-alpine
 snowdreamtech/adminer:latest-alpine
 
-# For tag: debian-v6.2.0 (default variant)
-snowdreamtech/adminer:6.2.0-debian
+# For tag: debian-v6.3.0 (default variant)
+snowdreamtech/adminer:6.3.0-debian
 snowdreamtech/adminer:latest-debian
-snowdreamtech/adminer:6.2.0            # ← Debian (default)
+snowdreamtech/adminer:6.3.0            # ← Debian (default)
 snowdreamtech/adminer:latest           # ← Debian (default)
 
-# For tag: rocky-v6.2.0
-snowdreamtech/adminer:6.2.0-rocky
+# For tag: rocky-v6.3.0
+snowdreamtech/adminer:6.3.0-rocky
 snowdreamtech/adminer:latest-rocky
 ```
 
@@ -113,6 +113,6 @@ snowdreamtech/adminer:latest-rocky
 | Nightly | Alpine | `YYYYMMDD-alpine`, `nightly-alpine` |
 | Nightly | Debian | `YYYYMMDD-debian`, `nightly-debian`, `YYYYMMDD`, `nightly` |
 | Nightly | Rocky | `YYYYMMDD-rocky`, `nightly-rocky` |
-| Tag `alpine-v6.2.0` | Alpine | `6.2.0-alpine`, `latest-alpine` |
-| Tag `debian-v6.2.0` | Debian | `6.2.0-debian`, `latest-debian`, `6.2.0`, `latest` |
-| Tag `rocky-v6.2.0` | Rocky | `6.2.0-rocky`, `latest-rocky` |
+| Tag `alpine-v6.3.0` | Alpine | `6.3.0-alpine`, `latest-alpine` |
+| Tag `debian-v6.3.0` | Debian | `6.3.0-debian`, `latest-debian`, `6.3.0`, `latest` |
+| Tag `rocky-v6.3.0` | Rocky | `6.3.0-rocky`, `latest-rocky` |

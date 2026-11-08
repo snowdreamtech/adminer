@@ -5,7 +5,7 @@ FROM snowdreamtech/php:8.4.27-nginx-debian
 
 # Build-time Configuration
 # x-release-please-start-version
-ARG VERSION="6.2.0"
+ARG VERSION="6.3.0"
 # x-release-please-end
 
 ARG BUILDTIME \
