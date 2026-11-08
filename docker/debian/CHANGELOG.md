@@ -1,5 +1,24 @@
 # Changelog
 
+## [6.3.0](https://github.com/snowdreamtech/adminer/compare/debian-v6.3.0...debian-v6.3.0) (2026-11-08)
+
+
+### 🚀 Features
+
+* align repository structure with base dev and upgrade upstream versions to 6.2.0 ([dd2672b](https://github.com/snowdreamtech/adminer/commit/dd2672b3925a6fd0f66723985b6c962740f77c06))
+* **deps:** bump base images to alpine 3.24.3 and debian 13.7.0 ([46281af](https://github.com/snowdreamtech/adminer/commit/46281af1f173cfb14b843fa6796617448663a82f))
+* initial release of snowdreamtech base docker images powered by unirtm ([25f55c8](https://github.com/snowdreamtech/adminer/commit/25f55c84e8fba977d226739e9871d61e1428fdeb))
+* upgrade adminer to 6.3.0 ([d99ffee](https://github.com/snowdreamtech/adminer/commit/d99ffeec24851d66a134f8d47268e988c56a1012))
+
+
+### ♻️ Miscellaneous Chores
+
+* release main ([8b20b4e](https://github.com/snowdreamtech/adminer/commit/8b20b4ed7b390072681c65471897779ca410664b))
+* release main ([2e3207a](https://github.com/snowdreamtech/adminer/commit/2e3207a05942c226fc7af7e1c5e8afa96f646c1d))
+* release main ([a2cafdc](https://github.com/snowdreamtech/adminer/commit/a2cafdc012ed85559e0239e6333af767a878eff8))
+* **release:** deduplicate CHANGELOG headers ([121c74c](https://github.com/snowdreamtech/adminer/commit/121c74ce89ee44b6e72f2eccec70ed5a04d1b380))
+* **release:** deduplicate CHANGELOG headers ([ec1c2ef](https://github.com/snowdreamtech/adminer/commit/ec1c2ef80d3e6af152487494cd1727eaf502214b))
+
 ## [6.0.2](https://github.com/snowdreamtech/adminer/compare/debian-v6.0.1...debian-v6.0.2) (2026-09-08)
 
 
